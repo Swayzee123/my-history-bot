@@ -6,57 +6,133 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: #f5f6fa;
-            margin: 0;
-            padding: 20px;
             color: #333;
+            padding-bottom: 70px;
         }
 
+        /* Header */
         .header {
+            background: #fff;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            color: #8e8e93;
-            font-size: 13px;
+            border-bottom: 1px solid #efeff4;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .close-btn {
             font-size: 24px;
             cursor: pointer;
             color: #000;
+            background: none;
+            border: none;
+            font-weight: 500;
         }
 
-        /* Progress bar */
-        .progress-bar {
-            height: 6px;
-            background: #e5e5ea;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 18px;
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #fff;
+            padding: 8px 16px;
+            gap: 24px;
+            border-bottom: 1px solid #efeff4;
         }
 
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #3478f6, #6aa8ff);
-            transition: width 0.4s ease;
+        .tab {
+            font-size: 15px;
+            color: #8e8e93;
+            padding-bottom: 8px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
         }
 
-        /* Card */
-        .card {
+        .tab.active {
+            color: #3478f6;
+            border-bottom-color: #3478f6;
+        }
+
+        /* Content */
+        .content {
+            padding: 16px;
+        }
+
+        /* Subject cards */
+        .subject-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .subject-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3478f6;
+        }
+
+        .subject-emoji {
+            font-size: 24px;
+        }
+
+        .topics-list {
+            margin-top: 8px;
+        }
+
+        .topic-item {
+            padding: 12px;
+            margin-top: 8px;
+            background: #f8f9fc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #efeff4;
+        }
+
+        .topic-item:active {
+            transform: scale(0.98);
+            background: #f2f8ff;
+        }
+
+        .topic-title {
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .topic-meta {
+            font-size: 12px;
+            color: #8e8e93;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Quiz Card */
+        .quiz-card {
             background: #fff;
             border-radius: 18px;
             padding: 20px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
         }
 
         .question-text {
@@ -95,18 +171,40 @@
             background-color: #fff2f1;
         }
 
+        /* Result Card */
+        .result-card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 32px 20px;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: #3478f6;
+            margin: 20px 0;
+        }
+
+        .result-percent {
+            font-size: 16px;
+            color: #8e8e93;
+            margin-bottom: 24px;
+        }
+
+        /* Buttons */
         .footer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: 16px 20px;
+            padding: 12px 16px;
             background: #fff;
             border-top: 1px solid #efeff4;
             box-sizing: border-box;
         }
 
-        /* Gradient button */
         .btn-main {
             width: 100%;
             background: linear-gradient(90deg, #3478f6, #6aa8ff);
@@ -117,33 +215,111 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            opacity: 0.5;
             transition: 0.2s;
         }
 
-        .btn-main.active {
-            opacity: 1;
+        .btn-secondary {
+            width: 100%;
+            background: #f2f2f7;
+            color: #3478f6;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e5e5ea;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3478f6, #6aa8ff);
+            transition: width 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="close-btn" onclick="tg.close()">✕</div>
-    <div id="counter">1 / 10</div>
+<div id="mainScreen">
+    <div class="header">
+        <div>📚 KEDR Bot</div>
+        <button class="close-btn" onclick="tg.close()">✕</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="subjects">предметы</div>
+        <div class="tab" data-tab="statistics">статистика</div>
+        <div class="tab" data-tab="profile">профиль</div>
+    </div>
+
+    <div class="content" id="subjectsList"></div>
+    <div class="content hidden" id="statisticsScreen">
+        <div style="text-align: center; padding: 40px; color: #8e8e93;">
+            📊 Здесь будет статистика<br>
+            <span style="font-size: 14px;">Количество пройденных тестов, правильные ответы и прогресс</span>
+        </div>
+    </div>
+    <div class="content hidden" id="profileScreen">
+        <div style="text-align: center; padding: 40px; color: #8e8e93;">
+            👤 Профиль пользователя<br>
+            <span style="font-size: 14px;">Имя, аватар, настройки и достижения</span>
+        </div>
+    </div>
 </div>
 
-<div class="progress-bar">
-    <div class="progress-fill" id="progress-fill"></div>
+<div id="quizScreen" class="hidden">
+    <div class="header">
+        <button class="close-btn" onclick="backToMain()">←</button>
+        <div id="quizTitle">Викторина</div>
+        <div style="width: 24px;"></div>
+    </div>
+    <div class="content">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="quiz-card">
+            <div class="question-text" id="q-text">Загрузка...</div>
+            <div id="options-box"></div>
+        </div>
+    </div>
+    <div class="footer">
+        <button class="btn-main" id="action-btn" disabled onclick="handleAnswer()">Ответить</button>
+    </div>
 </div>
 
-<div class="card">
-    <div class="question-text" id="q-text">Загрузка...</div>
-    <div id="options-box"></div>
-</div>
-
-<div class="footer">
-    <button class="btn-main" id="action-btn" disabled onclick="handleClick()">Ответить</button>
+<div id="resultScreen" class="hidden">
+    <div class="header">
+        <button class="close-btn" onclick="backToMain()">←</button>
+        <div>Результат</div>
+        <div style="width: 24px;"></div>
+    </div>
+    <div class="content">
+        <div class="result-card">
+            <div>🎉</div>
+            <div class="result-score" id="resultScore">0/0</div>
+            <div class="result-percent" id="resultPercent">0%</div>
+            <button class="btn-main" onclick="backToMain()">На главную</button>
+            <button class="btn-secondary" onclick="retryQuiz()">Пройти заново</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -153,34 +329,230 @@ const tg = window.Telegram?.WebApp || {
     close: () => {}
 };
 
-const questions = [
-    { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
-    { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
-    { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 }
-];
+// ==================== ДАННЫЕ ====================
+// Здесь ты добавляешь свои предметы и темы с вопросами
+const subjects = {
+    обществоведение: {
+        emoji: "🏛️",
+        topics: [
+            {
+                id: 1,
+                title: "Апрельский курс",
+                questions: [
+                    { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
+                    { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
+                    { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
+                    { text: "Кто написал 'Слово о полку Игореве'?", options: ["Неизвестный автор", "А.С. Пушкин", "М.В. Ломоносов"], correct: 0 },
+                    { text: "Какое событие произошло в 1812 году?", options: ["Отечественная война", "Северная война", "Крымская война"], correct: 0 }
+                ]
+            },
+            {
+                id: 2,
+                title: "Политическая система",
+                questions: [
+                    { text: "Что такое демократия?", options: ["Власть народа", "Власть одного человека", "Отсутствие власти"], correct: 0 },
+                    { text: "Что из перечисленного является признаком правового государства?", options: ["Верховенство закона", "Диктатура", "Цензура"], correct: 0 },
+                    { text: "Кто является главой государства в Республике Беларусь?", options: ["Премьер-министр", "Президент", "Председатель парламента"], correct: 1 }
+                ]
+            }
+        ]
+    },
+    история: {
+        emoji: "📜",
+        topics: [
+            {
+                id: 3,
+                title: "Великое княжество Литовское",
+                questions: [
+                    { text: "Когда было образовано Великое княжество Литовское?", options: ["XIII век", "XIV век", "XV век"], correct: 0 },
+                    { text: "Какая столица была у ВКЛ?", options: ["Минск", "Вильня", "Полоцк"], correct: 1 },
+                    { text: "Кто был первым великим князем литовским?", options: ["Миндовг", "Гедимин", "Ольгерд"], correct: 0 }
+                ]
+            },
+            {
+                id: 4,
+                title: "Вторая мировая война",
+                questions: [
+                    { text: "Когда началась Вторая мировая война?", options: ["1939 год", "1941 год", "1937 год"], correct: 0 },
+                    { text: "Какое сражение стало переломным в Великой Отечественной войне?", options: ["Сталинградская битва", "Курская битва", "Битва за Москву"], correct: 0 }
+                ]
+            }
+        ]
+    },
+    математика: {
+        emoji: "📐",
+        topics: [
+            {
+                id: 5,
+                title: "Основы алгебры",
+                questions: [
+                    { text: "Сколько будет 2 + 2 × 2?", options: ["6", "8", "4"], correct: 0 },
+                    { text: "Чему равен квадрат числа 12?", options: ["144", "124", "1440"], correct: 0 }
+                ]
+            }
+        ]
+    }
+};
 
-let current = 0;
-let selected = null;
-let answered = false;
+let currentTopic = null;
+let currentQuestionIndex = 0;
+let currentScore = 0;
+let selectedOption = null;
+let isAnswered = false;
 
-function render() {
-    const q = questions[current];
+// Сохранение прогресса пользователя
+let userProgress = {};
+
+function init() {
+    tg.expand();
+    tg.ready();
+    
+    // Загружаем сохраненный прогресс
+    loadProgress();
+    
+    // Показываем предметы
+    renderSubjects();
+    
+    // Обработка табов
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabType = tab.dataset.tab;
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            document.getElementById('subjectsList').classList.add('hidden');
+            document.getElementById('statisticsScreen').classList.add('hidden');
+            document.getElementById('profileScreen').classList.add('hidden');
+            
+            if (tabType === 'subjects') {
+                document.getElementById('subjectsList').classList.remove('hidden');
+                renderSubjects();
+            } else if (tabType === 'statistics') {
+                document.getElementById('statisticsScreen').classList.remove('hidden');
+                renderStatistics();
+            } else if (tabType === 'profile') {
+                document.getElementById('profileScreen').classList.remove('hidden');
+            }
+        });
+    });
+}
+
+function renderSubjects() {
+    const container = document.getElementById('subjectsList');
+    container.innerHTML = '';
+    
+    for (const [subjectName, subjectData] of Object.entries(subjects)) {
+        const card = document.createElement('div');
+        card.className = 'subject-card';
+        
+        // Заголовок предмета
+        const header = document.createElement('div');
+        header.className = 'subject-header';
+        header.innerHTML = `
+            <span class="subject-name">${subjectData.emoji} ${subjectName.charAt(0).toUpperCase() + subjectName.slice(1)}</span>
+            <span class="subject-emoji">${subjectData.emoji}</span>
+        `;
+        card.appendChild(header);
+        
+        // Список тем
+        const topicsList = document.createElement('div');
+        topicsList.className = 'topics-list';
+        
+        subjectData.topics.forEach(topic => {
+            const progress = userProgress[topic.id] || { completed: false, bestScore: 0 };
+            const questionsCount = topic.questions.length;
+            const progressText = progress.completed ? `✅ Пройдено (${progress.bestScore}/${questionsCount})` : `📝 ${questionsCount} вопросов`;
+            
+            const topicItem = document.createElement('div');
+            topicItem.className = 'topic-item';
+            topicItem.onclick = () => startQuiz(topic);
+            topicItem.innerHTML = `
+                <div class="topic-title">${topic.title}</div>
+                <div class="topic-meta">
+                    <span>${progressText}</span>
+                    ${progress.bestScore > 0 ? `<span>🏆 ${Math.round((progress.bestScore / questionsCount) * 100)}%</span>` : ''}
+                </div>
+            `;
+            topicsList.appendChild(topicItem);
+        });
+        
+        card.appendChild(topicsList);
+        container.appendChild(card);
+    }
+}
+
+function renderStatistics() {
+    const container = document.getElementById('statisticsScreen');
+    let totalQuestions = 0;
+    let totalCorrect = 0;
+    let completedTopics = 0;
+    
+    for (const [subjectName, subjectData] of Object.entries(subjects)) {
+        subjectData.topics.forEach(topic => {
+            const progress = userProgress[topic.id];
+            if (progress && progress.bestScore) {
+                totalQuestions += topic.questions.length;
+                totalCorrect += progress.bestScore;
+                if (progress.bestScore === topic.questions.length) {
+                    completedTopics++;
+                }
+            }
+        });
+    }
+    
+    const percent = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+    
+    container.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 48px; margin-bottom: 20px;">📊</div>
+            <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">${percent}%</div>
+            <div style="background: #fff; border-radius: 16px; padding: 20px; margin-top: 20px;">
+                <div style="margin-bottom: 12px;">✅ Правильных ответов: ${totalCorrect}</div>
+                <div style="margin-bottom: 12px;">📝 Всего вопросов: ${totalQuestions}</div>
+                <div style="margin-bottom: 12px;">🎯 Пройдено тем: ${completedTopics}</div>
+                <div>🏆 Идеально пройдено: ${completedTopics}</div>
+            </div>
+        </div>
+    `;
+}
+
+function startQuiz(topic) {
+    currentTopic = topic;
+    currentQuestionIndex = 0;
+    currentScore = 0;
+    selectedOption = null;
+    isAnswered = false;
+    
+    document.getElementById('quizTitle').innerText = topic.title;
+    document.getElementById('mainScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+    document.getElementById('resultScreen').classList.add('hidden');
+    
+    renderQuestion();
+}
+
+function renderQuestion() {
+    const q = currentTopic.questions[currentQuestionIndex];
+    if (!q) {
+        finishQuiz();
+        return;
+    }
+    
     document.getElementById('q-text').innerText = q.text;
-    document.getElementById('counter').innerText = `${current+1} / ${questions.length}`;
-
-    const percent = (current / questions.length) * 100;
+    
+    const percent = (currentQuestionIndex / currentTopic.questions.length) * 100;
     document.getElementById('progress-fill').style.width = percent + "%";
-
+    
     const box = document.getElementById('options-box');
     box.innerHTML = '';
-    selected = null;
-    answered = false;
-
+    selectedOption = null;
+    isAnswered = false;
+    
     const btn = document.getElementById('action-btn');
     btn.disabled = true;
-    btn.classList.remove('active');
     btn.innerText = "Ответить";
-
+    
     q.options.forEach((opt, i) => {
         const div = document.createElement('div');
         div.className = 'option';
@@ -190,43 +562,104 @@ function render() {
     });
 }
 
-function selectOption(i, el) {
-    if (answered) return;
-    selected = i;
+function selectOption(index, element) {
+    if (isAnswered) return;
+    selectedOption = index;
     document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-    el.classList.add('selected');
-
+    element.classList.add('selected');
+    
     const btn = document.getElementById('action-btn');
     btn.disabled = false;
-    btn.classList.add('active');
 }
 
-function handleClick() {
-    const q = questions[current];
+function handleAnswer() {
+    if (selectedOption === null) return;
+    
+    const q = currentTopic.questions[currentQuestionIndex];
     const btn = document.getElementById('action-btn');
-
-    if (!answered) {
-        answered = true;
+    
+    if (!isAnswered) {
+        isAnswered = true;
+        
         document.querySelectorAll('.option').forEach((el, i) => {
             if (i === q.correct) el.classList.add('correct');
-            else if (i === selected) el.classList.add('wrong');
+            else if (i === selectedOption) el.classList.add('wrong');
         });
+        
+        if (selectedOption === q.correct) {
+            currentScore++;
+        }
+        
         btn.innerText = "Дальше";
     } else {
-        current++;
-        if (current < questions.length) render();
-        else {
-            alert("Готово!");
-            tg.close();
+        currentQuestionIndex++;
+        if (currentQuestionIndex < currentTopic.questions.length) {
+            renderQuestion();
+        } else {
+            finishQuiz();
         }
     }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    tg.expand();
-    tg.ready();
-    render();
-});
+function finishQuiz() {
+    // Сохраняем лучший результат
+    if (!userProgress[currentTopic.id]) {
+        userProgress[currentTopic.id] = { completed: false, bestScore: 0 };
+    }
+    
+    if (currentScore > userProgress[currentTopic.id].bestScore) {
+        userProgress[currentTopic.id].bestScore = currentScore;
+        if (currentScore === currentTopic.questions.length) {
+            userProgress[currentTopic.id].completed = true;
+        }
+    }
+    
+    saveProgress();
+    
+    // Показываем результат
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('resultScreen').classList.remove('hidden');
+    
+    const resultScore = `${currentScore}/${currentTopic.questions.length}`;
+    const percent = Math.round((currentScore / currentTopic.questions.length) * 100);
+    
+    document.getElementById('resultScore').innerText = resultScore;
+    document.getElementById('resultPercent').innerText = `Правильных ответов: ${percent}%`;
+}
+
+function backToMain() {
+    document.getElementById('mainScreen').classList.remove('hidden');
+    document.getElementById('quizScreen').classList.add('hidden');
+    document.getElementById('resultScreen').classList.add('hidden');
+    
+    // Обновляем главный экран
+    renderSubjects();
+}
+
+function retryQuiz() {
+    currentScore = 0;
+    currentQuestionIndex = 0;
+    selectedOption = null;
+    isAnswered = false;
+    
+    document.getElementById('resultScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+    renderQuestion();
+}
+
+function saveProgress() {
+    localStorage.setItem('quizProgress', JSON.stringify(userProgress));
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem('quizProgress');
+    if (saved) {
+        userProgress = JSON.parse(saved);
+    }
+}
+
+// Запуск приложения
+window.addEventListener('DOMContentLoaded', init);
 </script>
 
 </body>
