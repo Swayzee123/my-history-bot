@@ -5,21 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             padding-bottom: 70px;
             background: linear-gradient(135deg, #fff5f0 0%, #ffe8f0 100%);
         }
-
         .header {
             background: rgba(255,255,255,0.85);
             backdrop-filter: blur(20px);
@@ -29,7 +22,6 @@
             align-items: center;
             border-bottom: 1px solid rgba(255,200,210,0.3);
         }
-
         .date-icon {
             font-size: 16px;
             font-weight: 500;
@@ -38,7 +30,6 @@
             border-radius: 30px;
             color: #b86f8c;
         }
-
         .close-btn {
             font-size: 24px;
             cursor: pointer;
@@ -48,9 +39,7 @@
             width: 40px;
             height: 40px;
             border-radius: 40px;
-            font-weight: 500;
         }
-
         .tabs {
             display: flex;
             background: rgba(255,255,255,0.85);
@@ -60,7 +49,6 @@
             border-bottom: 1px solid rgba(255,200,210,0.3);
             overflow-x: auto;
         }
-
         .tab {
             font-size: 14px;
             color: #6a5a6a;
@@ -69,24 +57,10 @@
             border-bottom: 2px solid transparent;
             white-space: nowrap;
         }
-
-        .tab.active {
-            color: #d48c9c;
-            border-bottom-color: #d48c9c;
-        }
-
-        .content {
-            padding: 16px;
-        }
-
-        .screen {
-            display: block;
-        }
-
-        .screen.hidden {
-            display: none;
-        }
-
+        .tab.active { color: #d48c9c; border-bottom-color: #d48c9c; }
+        .content { padding: 16px; }
+        .screen { display: block; }
+        .screen.hidden { display: none; }
         .subject-card {
             background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
@@ -94,7 +68,6 @@
             padding: 20px;
             margin-bottom: 20px;
         }
-
         .subject-title {
             font-size: 22px;
             font-weight: 700;
@@ -103,7 +76,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .lesson-item {
             padding: 14px;
             margin-top: 10px;
@@ -112,35 +84,10 @@
             cursor: pointer;
             border: 1px solid rgba(212,140,156,0.3);
         }
-
-        .lesson-item:active {
-            transform: scale(0.98);
-        }
-
-        .lesson-title {
-            font-weight: 600;
-            color: #5a4a5a;
-        }
-
-        .lesson-meta {
-            font-size: 12px;
-            color: #b86f8c;
-            margin-top: 6px;
-        }
-
-        .quiz-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 28px;
-            padding: 24px;
-        }
-
-        .question-text {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #4a3a4a;
-        }
-
+        .lesson-title { font-weight: 600; color: #5a4a5a; }
+        .lesson-meta { font-size: 12px; color: #b86f8c; margin-top: 6px; }
+        .quiz-card { background: rgba(255,255,255,0.95); border-radius: 28px; padding: 24px; }
+        .question-text { font-size: 20px; font-weight: 600; margin-bottom: 24px; color: #4a3a4a; }
         .option {
             padding: 14px;
             border: 2px solid rgba(212,140,156,0.3);
@@ -149,38 +96,11 @@
             cursor: pointer;
             background: white;
         }
-
-        .option.selected {
-            border-color: #d48c9c;
-            background: rgba(212,140,156,0.1);
-        }
-
-        .option.correct {
-            border-color: #9bcd9b;
-            background: rgba(155,205,155,0.2);
-        }
-
-        .option.wrong {
-            border-color: #e89f7e;
-            background: rgba(232,159,126,0.15);
-        }
-
-        .result-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 28px;
-            padding: 32px 20px;
-            text-align: center;
-        }
-
-        .result-score {
-            font-size: 56px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #b86f8c, #e89f7e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 20px 0;
-        }
-
+        .option.selected { border-color: #d48c9c; background: rgba(212,140,156,0.1); }
+        .option.correct { border-color: #9bcd9b; background: rgba(155,205,155,0.2); }
+        .option.wrong { border-color: #e89f7e; background: rgba(232,159,126,0.15); }
+        .result-card { background: rgba(255,255,255,0.95); border-radius: 28px; padding: 32px 20px; text-align: center; }
+        .result-score { font-size: 56px; font-weight: 800; background: linear-gradient(135deg, #b86f8c, #e89f7e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 20px 0; }
         .footer {
             position: fixed;
             bottom: 0;
@@ -191,7 +111,6 @@
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255,200,210,0.3);
         }
-
         .btn-main {
             width: 100%;
             background: linear-gradient(135deg, #d48c9c, #e89f7e);
@@ -204,11 +123,7 @@
             cursor: pointer;
             opacity: 0.5;
         }
-
-        .btn-main.active {
-            opacity: 1;
-        }
-
+        .btn-main.active { opacity: 1; }
         .btn-secondary {
             width: 100%;
             background: rgba(212,140,156,0.2);
@@ -220,29 +135,9 @@
             margin-top: 12px;
             cursor: pointer;
         }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(212,140,156,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #d48c9c, #e89f7e);
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.9);
-            border-radius: 28px;
-            padding: 20px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
+        .progress-bar { height: 8px; background: rgba(212,140,156,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #d48c9c, #e89f7e); }
+        .stat-card { background: rgba(255,255,255,0.9); border-radius: 28px; padding: 20px; margin-bottom: 16px; text-align: center; }
         .rank-item {
             display: flex;
             align-items: center;
@@ -252,22 +147,7 @@
             border-radius: 20px;
             margin-bottom: 8px;
         }
-
-        .rank-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 44px;
-            background: #d48c9c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .rank-avatar { width: 44px; height: 44px; border-radius: 44px; background: #d48c9c; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     </style>
 </head>
 <body>
@@ -277,14 +157,12 @@
         <div class="date-icon" id="currentDate"></div>
         <button class="close-btn" onclick="window.Telegram?.WebApp?.close()">✕</button>
     </div>
-
     <div class="tabs">
         <div class="tab active" data-tab="subjects">📚 История</div>
         <div class="tab" data-tab="stats">📊 Статистика</div>
         <div class="tab" data-tab="rating">🏆 Рейтинг</div>
         <div class="tab" data-tab="profile">👤 Профиль</div>
     </div>
-
     <div class="content">
         <div id="subjectsList"></div>
         <div id="statsContent" style="display:none;"></div>
@@ -328,39 +206,149 @@
 
 <script>
 const tg = window.Telegram?.WebApp;
-if (tg) {
-    tg.expand();
-    tg.ready();
-}
+if (tg) { tg.expand(); tg.ready(); }
 
 const SUPABASE_URL = "https://roakqdkabmtsemavyseh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dYmhQWEHHhUhcqLbxr6M_w_rhrk_S7z";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Данные
+// ========== ВСЕМИРНАЯ ИСТОРИЯ ==========
+const worldLessons = [
+    {
+        id: 1,
+        title: "Урок 1. Древний мир и Античность",
+        questions: [
+            { text: "Когда произошел переход кроманьонцев из Африки на Аравийский полуостров?", options: ["60–50 тыс. лет назад", "40–35 тыс. лет назад", "9–3 тыс. до н.э."], correct: 0 },
+            { text: "Когда появились кроманьонцы в Европе?", options: ["60–50 тыс. лет назад", "40–35 тыс. лет назад", "9–3 тыс. до н.э."], correct: 1 },
+            { text: "Когда произошла неолитическая революция?", options: ["9–3 тыс. до н.э.", "40–35 тыс. лет назад", "4 тыс. до н.э."], correct: 0 },
+            { text: "Когда возникли города-государства у шумеров?", options: ["конец 4 тыс. до н.э.", "3 тыс. до н.э.", "VIII в. до н.э."], correct: 0 },
+            { text: "Когда началась Великая греческая колонизация?", options: ["VIII–VI вв. до н.э.", "I в. н.э.", "313 г."], correct: 0 },
+            { text: "Какой период охватывает Античность?", options: ["VIII в. до н.э. – 476 г. н.э.", "I в. н.э. – 476 г.", "313–476 гг."], correct: 0 },
+            { text: "Когда возникло христианство?", options: ["I в. н.э.", "313 г.", "476 г."], correct: 0 },
+            { text: "Когда был издан Миланский эдикт?", options: ["313 г.", "476 г.", "751 г."], correct: 0 },
+            { text: "Когда пала Западная Римская империя?", options: ["476 г.", "313 г.", "751 г."], correct: 0 },
+            { text: "Когда произошла Таласская битва?", options: ["751 г.", "800 г.", "843 г."], correct: 0 },
+            { text: "Когда состоялась коронация Карла Великого?", options: ["800 г.", "751 г.", "843 г."], correct: 0 },
+            { text: "Когда произошло разделение Франкской империи?", options: ["843 г.", "800 г.", "882 г."], correct: 0 },
+            { text: "Когда была создана Священная Римская империя?", options: ["962 г.", "882 г.", "907 г."], correct: 0 },
+            { text: "Когда произошел раскол церквей (Великая схизма)?", options: ["1054 г.", "988 г.", "1066 г."], correct: 0 },
+            { text: "Когда произошла битва при Гастингсе?", options: ["1066 г.", "1054 г.", "1097 г."], correct: 0 },
+            { text: "Когда происходили Крестовые походы?", options: ["1096–1270 гг.", "1097–1204 гг.", "1185–1240 гг."], correct: 0 },
+            { text: "Когда были созданы Кортесы в Кастилии?", options: ["1137 г.", "1097 г.", "1185 г."], correct: 0 },
+            { text: "Когда был основан Тевтонский орден?", options: ["1198 г.", "1201 г.", "1202 г."], correct: 0 },
+            { text: "Когда крестоносцы захватили Константинополь?", options: ["1204 г.", "1198 г.", "1212 г."], correct: 0 },
+            { text: "Когда произошло монгольское нашествие Батыя?", options: ["1237–1241 гг.", "1240–1242 гг.", "1223 г."], correct: 0 },
+            { text: "Когда произошла Невская битва?", options: ["1240 г.", "1242 г.", "1237 г."], correct: 0 },
+            { text: "Когда произошло Ледовое побоище?", options: ["1242 г.", "1240 г.", "1237 г."], correct: 0 },
+            { text: "Когда прекратил существование Арабский халифат?", options: ["1258 г.", "1265 г.", "1302 г."], correct: 0 },
+            { text: "Когда был создан первый парламент в Англии?", options: ["1265 г.", "1258 г.", "1302 г."], correct: 0 },
+            { text: "Когда были созваны Генеральные штаты во Франции?", options: ["1302 г.", "1265 г.", "1325 г."], correct: 0 },
+            { text: "Когда пала Византийская империя?", options: ["1453 г.", "1455 г.", "1478 г."], correct: 0 },
+            { text: "Когда было изобретено книгопечатание Гутенбергом?", options: ["1455 г.", "1453 г.", "1492 г."], correct: 0 },
+            { text: "Когда началась европейская колониальная экспансия?", options: ["1492 г.", "1495 г.", "1517 г."], correct: 0 }
+        ]
+    },
+    {
+        id: 2,
+        title: "Урок 2. Новое время (XVI–XIX века)",
+        questions: [
+            { text: "Когда Мартин Лютер опубликовал 95 тезисов?", options: ["1517 г.", "1542 г.", "1571 г."], correct: 0 },
+            { text: "Когда произошла Варфоломеевская ночь?", options: ["1572 г.", "1571 г.", "1581 г."], correct: 0 },
+            { text: "Когда был подписан Нантский эдикт?", options: ["1598 г.", "1581 г.", "1572 г."], correct: 0 },
+            { text: "Когда закончилась Тридцатилетняя война?", options: ["1648 г.", "1635 г.", "1683 г."], correct: 0 },
+            { text: "Когда был подписан Вестфальский мир?", options: ["1648 г.", "1635 г.", "1683 г."], correct: 0 },
+            { text: "Когда произошла битва за Вену?", options: ["1683 г.", "1648 г.", "1721 г."], correct: 0 },
+            { text: "Когда был учрежден Синод в России?", options: ["1721 г.", "1724 г.", "1755 г."], correct: 0 },
+            { text: "Когда был основан Московский университет?", options: ["1755 г.", "1721 г.", "1765 г."], correct: 0 },
+            { text: "Кто изобрел паровую машину?", options: ["Уатт", "Риваз", "Гутенберг"], correct: 0 },
+            { text: "Когда началась Отечественная война 1812 года?", options: ["1812 г.", "1809 г.", "1815 г."], correct: 0 },
+            { text: "Когда состоялся Венский конгресс?", options: ["1815 г.", "1812 г.", "1801 г."], correct: 0 },
+            { text: "Когда Греция получила независимость?", options: ["1830 г.", "1820 г.", "1823 г."], correct: 0 },
+            { text: "Когда была отменена отмена крепостного права в России?", options: ["1861 г.", "1864 г.", "1865 г."], correct: 0 },
+            { text: "Когда было отменено рабство в США?", options: ["1865 г.", "1861 г.", "1864 г."], correct: 0 },
+            { text: "Когда завершилось объединение Германии?", options: ["1871 г.", "1870 г.", "1872 г."], correct: 0 },
+            { text: "Когда был подписан Берлинский договор?", options: ["1878 г.", "1872 г.", "1881 г."], correct: 0 }
+        ]
+    },
+    {
+        id: 3,
+        title: "Урок 3. XX век",
+        questions: [
+            { text: "В каком году началась Первая мировая война?", options: ["1914 г.", "1912 г.", "1917 г."], correct: 0 },
+            { text: "В каком году произошла Февральская революция в России?", options: ["1917 г.", "1914 г.", "1918 г."], correct: 0 },
+            { text: "Когда был создан СССР?", options: ["1922 г.", "1921 г.", "1918 г."], correct: 0 },
+            { text: "Когда началась Великая депрессия?", options: ["1929 г.", "1928 г.", "1926 г."], correct: 0 },
+            { text: "Когда Гитлер пришел к власти в Германии?", options: ["1933 г.", "1931 г.", "1935 г."], correct: 0 },
+            { text: "Когда был подписан пакт Молотова-Риббентропа?", options: ["1939 г.", "1938 г.", "1940 г."], correct: 0 },
+            { text: "Когда началась Вторая мировая война?", options: ["1939 г.", "1941 г.", "1938 г."], correct: 0 },
+            { text: "Когда Германия напала на СССР?", options: ["1941 г.", "1940 г.", "1942 г."], correct: 0 },
+            { text: "Когда состоялась Потсдамская конференция?", options: ["1945 г.", "1944 г.", "1943 г."], correct: 0 },
+            { text: "Когда началась холодная война?", options: ["1946 г.", "1945 г.", "1947 г."], correct: 0 },
+            { text: "Когда был создан блок НАТО?", options: ["1949 г.", "1951 г.", "1954 г."], correct: 0 },
+            { text: "Когда был запущен первый искусственный спутник Земли?", options: ["1957 г.", "1955 г.", "1958 г."], correct: 0 },
+            { text: "Когда Юрий Гагарин совершил первый полет в космос?", options: ["1961 г.", "1959 г.", "1962 г."], correct: 0 },
+            { text: "Когда произошел Карибский кризис?", options: ["1962 г.", "1961 г.", "1965 г."], correct: 0 },
+            { text: "Когда человек впервые высадился на Луну?", options: ["1969 г.", "1968 г.", "1972 г."], correct: 0 },
+            { text: "Когда был подписан Хельсинкский акт?", options: ["1975 г.", "1977 г.", "1979 г."], correct: 0 },
+            { text: "Когда произошла авария на Чернобыльской АЭС?", options: ["1986 г.", "1981 г.", "1984 г."], correct: 0 },
+            { text: "Когда распался СССР?", options: ["1991 г.", "1990 г.", "1992 г."], correct: 0 }
+        ]
+    },
+    {
+        id: 4,
+        title: "Урок 4. Современность (XXI век)",
+        questions: [
+            { text: "Когда был подписан Маастрихтский договор о создании ЕС?", options: ["1992 г.", "1993 г.", "1994 г."], correct: 0 },
+            { text: "Когда была принята Конституция РФ?", options: ["1993 г.", "1992 г.", "1994 г."], correct: 0 },
+            { text: "В каком году Борис Ельцин ушел в отставку?", options: ["1999 г.", "1998 г.", "2000 г."], correct: 0 },
+            { text: "Когда Владимир Путин впервые стал президентом?", options: ["2000 г.", "1999 г.", "2001 г."], correct: 0 },
+            { text: "Когда была создана ОДКБ?", options: ["2002 г.", "2001 г.", "2003 г."], correct: 0 },
+            { text: "Когда произошла Оранжевая революция на Украине?", options: ["2004 г.", "2003 г.", "2005 г."], correct: 0 },
+            { text: "Когда прошла Олимпиада в Сочи?", options: ["2014 г.", "2013 г.", "2015 г."], correct: 0 },
+            { text: "Когда был подписан договор о создании ЕАЭС?", options: ["2014 г.", "2015 г.", "2016 г."], correct: 0 },
+            { text: "Когда произошел референдум о выходе Великобритании из ЕС (Brexit)?", options: ["2016 г.", "2015 г.", "2014 г."], correct: 0 },
+            { text: "Когда были внесены поправки в Конституцию РФ?", options: ["2020 г.", "2022 г.", "2018 г."], correct: 0 }
+        ]
+    }
+];
+
+// ========== ИСТОРИЯ БЕЛАРУСИ ==========
+const belarusLessons = [
+    {
+        id: 10,
+        title: "Урок 1. Полоцкое княжество и ВКЛ",
+        questions: [
+            { text: "Первое упоминание Полоцка в летописи?", options: ["862 г.", "882 г.", "907 г."], correct: 0 },
+            { text: "Когда было создано Древнерусское государство?", options: ["882 г.", "862 г.", "907 г."], correct: 0 },
+            { text: "Когда состоялся поход Олега на Царьград?", options: ["907 г.", "882 г.", "941 г."], correct: 0 },
+            { text: "Когда князь Игорь совершил поход на Византию?", options: ["941 г.", "945 г.", "907 г."], correct: 0 },
+            { text: "В каком году погиб князь Святослав?", options: ["972 г.", "980 г.", "962 г."], correct: 0 },
+            { text: "Когда состоялся поход Владимира на Полоцк?", options: ["980 г.", "972 г.", "988 г."], correct: 0 },
+            { text: "Когда произошло Крещение Руси?", options: ["988 г.", "980 г.", "1054 г."], correct: 0 },
+            { text: "Когда состоялся Любечский съезд?", options: ["1097 г.", "1127 г.", "1185 г."], correct: 0 },
+            { text: "Какие события произошли в Полоцке и Смоленске в 1127 году?", options: ["Междоусобные войны", "Крещение", "Поход на половцев"], correct: 0 },
+            { text: "Когда состоялся поход Игоря на половцев?", options: ["1185 г.", "1127 г.", "1097 г."], correct: 0 },
+            { text: "Когда был основан Тевтонский орден?", options: ["1198 г.", "1201 г.", "1202 г."], correct: 0 },
+            { text: "Когда был основан орден Меченосцев?", options: ["1202 г.", "1201 г.", "1198 г."], correct: 0 },
+            { text: "Когда была основана Рига?", options: ["1201 г.", "1202 г.", "1198 г."], correct: 0 },
+            { text: "Когда происходила борьба Вячко с крестоносцами?", options: ["1208–1209 гг.", "1212–1223 гг.", "1237–1241 гг."], correct: 0 },
+            { text: "Когда произошло княжение Вячко в Юрьеве?", options: ["1212–1223 гг.", "1208–1209 гг.", "1237–1241 гг."], correct: 0 },
+            { text: "Когда произошло монгольское нашествие на Русь?", options: ["1237–1241 гг.", "1240–1242 гг.", "1223 г."], correct: 0 },
+            { text: "Когда произошла Невская битва?", options: ["1240 г.", "1242 г.", "1237 г."], correct: 0 },
+            { text: "Когда произошло Ледовое побоище?", options: ["1242 г.", "1240 г.", "1237 г."], correct: 0 },
+            { text: "Когда кафедра митрополита была перенесена в Москву?", options: ["1325 г.", "1435 г.", "1448 г."], correct: 0 },
+            { text: "Когда была заключена Флорентийская уния?", options: ["1439 г.", "1448 г.", "1458 г."], correct: 0 },
+            { text: "Когда произошло разделение Киевской митрополии?", options: ["1458 г.", "1439 г.", "1448 г."], correct: 0 },
+            { text: "Когда Новгород был присоединен к Москве?", options: ["1478 г.", "1458 г.", "1495 г."], correct: 0 }
+        ]
+    }
+];
+
+// Собираем все уроки в subjects
 const subjects = {
-    world: { name: "🌍 Всемирная история", lessons: [] },
-    belarus: { name: "🇧🇾 История Беларуси", lessons: [] }
+    world: { name: "🌍 Всемирная история", lessons: worldLessons },
+    belarus: { name: "🇧🇾 История Беларуси", lessons: belarusLessons }
 };
-
-subjects.world.lessons.push({
-    id: 1,
-    title: "Урок 1. Древний мир",
-    questions: [
-        { text: "Крещение Руси?", options: ["988 г.", "862 г.", "1054 г."], correct: 0 },
-        { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 },
-        { text: "Основание Санкт-Петербурга?", options: ["1703 г.", "1712 г.", "1721 г."], correct: 0 }
-    ]
-});
-
-subjects.belarus.lessons.push({
-    id: 2,
-    title: "Урок 1. Полоцкое княжество",
-    questions: [
-        { text: "Первое упоминание Полоцка в летописи?", options: ["862 г.", "988 г.", "1054 г."], correct: 0 },
-        { text: "Кто был первым князем Полоцка?", options: ["Рогволод", "Владимир", "Ярослав"], correct: 0 }
-    ]
-});
 
 // Исторические факты
 const historyFacts = [
@@ -373,147 +361,59 @@ const historyFacts = [
     "🎨 Леонардо да Винчи написал «Мону Лизу» в 1503 году.",
     "🚀 Первый полёт человека в космос — 12 апреля 1961 года.",
     "📚 Библиотека Ивана Грозного до сих пор не найдена.",
-    "🏛️ Древний Рим был основан в 753 году до н.э."
+    "🏛️ Древний Рим был основан в 753 году до н.э.",
+    "🇧🇾 Первая столица Беларуси — Полоцк",
+    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе"
 ];
 
-let currentLesson = null;
-let currentQuestionIndex = 0;
-let currentScore = 0;
-let selectedOption = null;
-let answered = false;
-let currentUser = null;
-let currentTab = "subjects";
+let currentLesson = null, currentQuestionIndex = 0, currentScore = 0, selectedOption = null, answered = false, currentUser = null, currentTab = "subjects";
 
 async function initUser() {
     const user = tg?.initDataUnsafe?.user;
-    if (!user) {
-        currentUser = { id: 123456, name: "Гость", total_score: 0 };
-        return;
-    }
-    
-    currentUser = {
-        id: user.id,
-        name: user.first_name || "Гость",
-        avatar: user.photo_url || null
-    };
-    
+    if (!user) { currentUser = { id: 123456, name: "Гость", total_score: 0 }; return; }
+    currentUser = { id: user.id, name: user.first_name || "Гость", avatar: user.photo_url || null };
     try {
-        const { data, error } = await supabaseClient
-            .from('users')
-            .select('*')
-            .eq('telegram_id', String(user.id))
-            .single();
-        
-        if (!data) {
-            await supabaseClient.from('users').insert({
-                telegram_id: String(user.id),
-                name: currentUser.name,
-                avatar: currentUser.avatar,
-                total_score: 0
-            });
-        } else {
-            currentUser.total_score = data.total_score || 0;
-        }
-    } catch(e) {
-        console.log("Supabase error:", e);
-    }
+        const { data } = await supabaseClient.from('users').select('*').eq('telegram_id', String(user.id)).single();
+        if (!data) await supabaseClient.from('users').insert({ telegram_id: String(user.id), name: currentUser.name, avatar: currentUser.avatar, total_score: 0 });
+        else currentUser.total_score = data.total_score || 0;
+    } catch(e) { console.log(e); }
 }
 
 async function saveResult(score, maxScore, lessonId) {
     if (!currentUser || currentUser.id === 123456) return;
-    
     try {
-        await supabaseClient.from('results').insert({
-            telegram_id: String(currentUser.id),
-            topic_id: lessonId,
-            score: score,
-            max_score: maxScore
-        });
-        
-        const { data } = await supabaseClient
-            .from('results')
-            .select('score')
-            .eq('telegram_id', String(currentUser.id));
-        
-        let total = 0;
-        if (data) data.forEach(r => total += r.score);
-        
-        await supabaseClient
-            .from('users')
-            .update({ total_score: total })
-            .eq('telegram_id', String(currentUser.id));
-        
+        await supabaseClient.from('results').insert({ telegram_id: String(currentUser.id), topic_id: lessonId, score: score, max_score: maxScore });
+        const { data } = await supabaseClient.from('results').select('score').eq('telegram_id', String(currentUser.id));
+        let total = 0; if (data) data.forEach(r => total += r.score);
+        await supabaseClient.from('users').update({ total_score: total }).eq('telegram_id', String(currentUser.id));
         currentUser.total_score = total;
-    } catch(e) {
-        console.log("Save error:", e);
-    }
+    } catch(e) { console.log(e); }
 }
 
 async function loadRating() {
     try {
-        const { data } = await supabaseClient
-            .from('users')
-            .select('name, total_score')
-            .order('total_score', { ascending: false })
-            .limit(20);
-        
+        const { data } = await supabaseClient.from('users').select('name, total_score').order('total_score', { ascending: false }).limit(20);
         const container = document.getElementById('ratingList');
-        if (!data || data.length === 0) {
-            container.innerHTML = '<div class="stat-card">⭐ Пока никого нет</div>';
-            return;
-        }
-        
-        container.innerHTML = data.map((user, i) => `
-            <div class="rank-item">
-                <div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div>
-                <div style="flex:1"><strong>${user.name || "Аноним"}</strong></div>
-                <div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div>
-            </div>
-        `).join('');
-    } catch(e) {
-        document.getElementById('ratingList').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>';
-    }
+        if (!data || data.length === 0) { container.innerHTML = '<div class="stat-card">⭐ Пока никого нет</div>'; return; }
+        container.innerHTML = data.map((user, i) => `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${user.name || "Аноним"}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`).join('');
+    } catch(e) { document.getElementById('ratingList').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>'; }
 }
 
 function renderStats() {
     let totalQuestions = 0;
-    let totalCorrect = 0;
-    
     for (const key in subjects) {
-        subjects[key].lessons.forEach(lesson => {
-            totalQuestions += lesson.questions.length;
-        });
+        subjects[key].lessons.forEach(lesson => { totalQuestions += lesson.questions.length; });
     }
-    
-    // Получаем реальные результаты пользователя
     const percent = totalQuestions ? Math.round((currentUser?.total_score || 0) / totalQuestions * 100) : 0;
-    
     let freqText = "";
     if (percent >= 80) freqText = "🔥 Ты настоящий историк! 🔥";
     else if (percent >= 50) freqText = "📚 Отлично! Продолжай в том же духе!";
     else if (percent > 0) freqText = "🌱 Неплохой старт! Учи даты чаще!";
     else freqText = "⭐ Начни учить даты прямо сейчас!";
-    
     document.getElementById('statsContent').innerHTML = `
-        <div class="stat-card">
-            <div style="font-size:48px;margin-bottom:16px;">📊</div>
-            <div class="stat-number" style="font-size:48px;font-weight:800;color:#d48c9c;">${percent}%</div>
-            <div style="margin:10px 0;">правильных ответов</div>
-            <div style="background:rgba(212,140,156,0.2);border-radius:10px;height:8px;margin:20px 0;">
-                <div style="width:${percent}%;height:100%;background:linear-gradient(90deg,#d48c9c,#e89f7e);border-radius:10px;"></div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div style="font-size:48px;margin-bottom:16px;">⏰</div>
-            <div style="font-size:32px;font-weight:bold;color:#d48c9c;">${Math.floor(Math.random() * 20) + 5}</div>
-            <div style="margin:10px 0;">раз ты учил даты</div>
-            <div style="font-size:14px;color:#b86f8c;">${freqText}</div>
-        </div>
-        <div class="stat-card">
-            <div style="font-size:48px;margin-bottom:16px;">🎯</div>
-            <div style="font-size:24px;font-weight:bold;">${currentUser?.total_score || 0} / ${totalQuestions}</div>
-            <div style="margin-top:10px;">дат запомнено</div>
-        </div>
+        <div class="stat-card"><div style="font-size:48px;">📊</div><div style="font-size:48px;font-weight:800;color:#d48c9c;">${percent}%</div><div>правильных ответов</div><div style="background:rgba(212,140,156,0.2);border-radius:10px;height:8px;margin:20px 0;"><div style="width:${percent}%;height:100%;background:linear-gradient(90deg,#d48c9c,#e89f7e);border-radius:10px;"></div></div></div>
+        <div class="stat-card"><div style="font-size:48px;">⏰</div><div style="font-size:32px;font-weight:bold;color:#d48c9c;">${Math.floor(Math.random() * 20) + 5}</div><div>раз ты учил даты</div><div style="font-size:14px;color:#b86f8c;">${freqText}</div></div>
+        <div class="stat-card"><div style="font-size:48px;">🎯</div><div style="font-size:24px;font-weight:bold;">${currentUser?.total_score || 0} / ${totalQuestions}</div><div>дат запомнено</div></div>
     `;
 }
 
@@ -521,23 +421,17 @@ function renderMain() {
     const now = new Date();
     const dateStr = `${now.getDate()} ${now.toLocaleString('ru', { month: 'long' })} ${now.getFullYear()}`;
     document.getElementById('currentDate').innerText = dateStr;
-    
     const container = document.getElementById('subjectsList');
     container.innerHTML = '';
-    
     for (const key in subjects) {
         const subject = subjects[key];
         const card = document.createElement('div');
         card.className = 'subject-card';
         card.innerHTML = `<div class="subject-title">${subject.name}</div>`;
-        
         subject.lessons.forEach(lesson => {
             const lessonDiv = document.createElement('div');
             lessonDiv.className = 'lesson-item';
-            lessonDiv.innerHTML = `
-                <div class="lesson-title">${lesson.title}</div>
-                <div class="lesson-meta">📅 ${lesson.questions.length} дат</div>
-            `;
+            lessonDiv.innerHTML = `<div class="lesson-title">${lesson.title}</div><div class="lesson-meta">📅 ${lesson.questions.length} дат</div>`;
             lessonDiv.onclick = () => startQuiz(lesson);
             card.appendChild(lessonDiv);
         });
@@ -548,51 +442,25 @@ function renderMain() {
 function renderProfile() {
     const user = tg?.initDataUnsafe?.user;
     const randomFact = historyFacts[Math.floor(Math.random() * historyFacts.length)];
-    
-    const avatarHtml = user?.photo_url 
-        ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;object-fit:cover;">`
-        : `<div style="width:80px;height:80px;border-radius:80px;background:linear-gradient(135deg,#d48c9c,#e89f7e);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📖</div>`;
-    
+    const avatarHtml = user?.photo_url ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;object-fit:cover;">` : `<div style="width:80px;height:80px;border-radius:80px;background:linear-gradient(135deg,#d48c9c,#e89f7e);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📖</div>`;
     document.getElementById('profileContent').innerHTML = `
-        <div class="stat-card">
-            ${avatarHtml}
-            <div style="font-size:24px;font-weight:bold;margin-bottom:8px;">${user?.first_name || "Гость"}</div>
-            <div style="color:#b86f8c;">🏆 ${currentUser?.total_score || 0} баллов</div>
-        </div>
-        <div class="stat-card">
-            <div style="font-size:18px;margin-bottom:12px;">📖 Исторический факт дня</div>
-            <div style="font-size:14px;line-height:1.5;">${randomFact}</div>
-        </div>
+        <div class="stat-card">${avatarHtml}<div style="font-size:24px;font-weight:bold;">${user?.first_name || "Гость"}</div><div style="color:#b86f8c;">🏆 ${currentUser?.total_score || 0} баллов</div></div>
+        <div class="stat-card"><div style="font-size:18px;margin-bottom:12px;">📖 Исторический факт дня</div><div style="font-size:14px;">${randomFact}</div></div>
     `;
 }
 
 function switchTab(tab) {
     currentTab = tab;
-    
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
-    
     document.getElementById('subjectsList').style.display = 'none';
     document.getElementById('statsContent').style.display = 'none';
     document.getElementById('ratingList').style.display = 'none';
     document.getElementById('profileContent').style.display = 'none';
-    
-    if (tab === 'subjects') {
-        document.getElementById('subjectsList').style.display = 'block';
-        renderMain();
-    }
-    if (tab === 'stats') {
-        document.getElementById('statsContent').style.display = 'block';
-        renderStats();
-    }
-    if (tab === 'rating') {
-        document.getElementById('ratingList').style.display = 'block';
-        loadRating();
-    }
-    if (tab === 'profile') {
-        document.getElementById('profileContent').style.display = 'block';
-        renderProfile();
-    }
+    if (tab === 'subjects') { document.getElementById('subjectsList').style.display = 'block'; renderMain(); }
+    if (tab === 'stats') { document.getElementById('statsContent').style.display = 'block'; renderStats(); }
+    if (tab === 'rating') { document.getElementById('ratingList').style.display = 'block'; loadRating(); }
+    if (tab === 'profile') { document.getElementById('profileContent').style.display = 'block'; renderProfile(); }
 }
 
 function startQuiz(lesson) {
@@ -600,7 +468,6 @@ function startQuiz(lesson) {
     currentQuestionIndex = 0;
     currentScore = 0;
     answered = false;
-    
     document.getElementById('quizTitle').innerText = lesson.title;
     document.getElementById('mainScreen').style.display = 'none';
     document.getElementById('quizScreen').style.display = 'block';
@@ -611,21 +478,17 @@ function startQuiz(lesson) {
 function renderQuestion() {
     const q = currentLesson.questions[currentQuestionIndex];
     if (!q) return finishQuiz();
-    
     document.getElementById('questionText').innerHTML = q.text;
     const percent = (currentQuestionIndex / currentLesson.questions.length) * 100;
     document.getElementById('progressFill').style.width = percent + "%";
-    
     const box = document.getElementById('optionsBox');
     box.innerHTML = '';
     selectedOption = null;
     answered = false;
-    
     const btn = document.getElementById('actionBtn');
     btn.disabled = true;
     btn.classList.remove('active');
     btn.innerText = "Ответить";
-    
     q.options.forEach((opt, i) => {
         const div = document.createElement('div');
         div.className = 'option';
@@ -644,10 +507,8 @@ function renderQuestion() {
 
 function handleAnswer() {
     if (selectedOption === null) return;
-    
     const q = currentLesson.questions[currentQuestionIndex];
     const btn = document.getElementById('actionBtn');
-    
     if (!answered) {
         answered = true;
         document.querySelectorAll('.option').forEach((el, i) => {
@@ -665,7 +526,6 @@ function handleAnswer() {
 
 async function finishQuiz() {
     await saveResult(currentScore, currentLesson.questions.length, currentLesson.id);
-    
     document.getElementById('quizScreen').style.display = 'none';
     document.getElementById('resultScreen').style.display = 'block';
     const percent = Math.round((currentScore / currentLesson.questions.length) * 100);
