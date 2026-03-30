@@ -30,109 +30,113 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="close-btn" onclick="tg.close()">✕</div>
-        <div id="top-counter">1 / 10</div>
-    </div>
 
-    <div class="question-text" id="q-text">Загрузка...</div>
-    <div id="options-box"></div>
+<div class="header">
+    <div class="close-btn" onclick="tg.close()">✕</div>
+    <div id="top-counter">1 / 10</div>
+</div>
 
-    <div class="footer">
-        <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
-        <div class="progress" id="bottom-counter">1 / 10</div>
-    </div>
+<div class="question-text" id="q-text">Загрузка...</div>
+<div id="options-box"></div>
 
-    <script>
-        // Защита для браузера (когда не из Telegram)
-        const tg = window.Telegram?.WebApp || {
-            expand: () => {},
-            ready: () => {},
-            close: () => {}
-        };
+<div class="footer">
+    <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
+    <div class="progress" id="bottom-counter">1 / 10</div>
+</div>
 
-        const questions = [
-            { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
-            { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
-            { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
-            { text: "Отмена крепостного права в России?", options: ["1812 год", "1861 год", "1881 год"], correct: 1 },
-            { text: "Первый полет человека в космос?", options: ["1957 год", "1961 год", "1969 год"], correct: 1 },
-            { text: "Начало Первой мировой войны?", options: ["1914 год", "1939 год", "1905 год"], correct: 0 },
-            { text: "Распад СССР?", options: ["1985 год", "1991 год", "2000 год"], correct: 1 },
-            { text: "Бородинское сражение произошло в...", options: ["1812 году", "1853 году", "1709 году"], correct: 0 },
-            { text: "Венчание Ивана Грозного на царство?", options: ["1547 год", "1533 год", "1584 год"], correct: 0 },
-            { text: "Принятие текущей Конституции РФ?", options: ["1991 год", "1993 год", "1995 год"], correct: 1 }
-        ];
+<script>
+const tg = window.Telegram?.WebApp || {
+    expand: () => {},
+    ready: () => {},
+    close: () => {}
+};
 
-        let currentQ = 0;
-        let selectedIdx = null;
-        let isAnswered = false;
+const questions = [
+    { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
+    { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
+    { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
+    { text: "Отмена крепостного права в России?", options: ["1812 год", "1861 год", "1881 год"], correct: 1 },
+    { text: "Первый полет человека в космос?", options: ["1957 год", "1961 год", "1969 год"], correct: 1 },
+    { text: "Начало Первой мировой войны?", options: ["1914 год", "1939 год", "1905 год"], correct: 0 },
+    { text: "Распад СССР?", options: ["1985 год", "1991 год", "2000 год"], correct: 1 },
+    { text: "Бородинское сражение произошло в...", options: ["1812 году", "1853 году", "1709 году"], correct: 0 },
+    { text: "Венчание Ивана Грозного на царство?", options: ["1547 год", "1533 год", "1584 год"], correct: 0 },
+    { text: "Принятие текущей Конституции РФ?", options: ["1991 год", "1993 год", "1995 год"], correct: 1 }
+];
 
-        function render() {
-            const q = questions[currentQ];
-            document.getElementById('q-text').innerText = q.text;
-            document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
-            document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
+let currentQ = 0;
+let selectedIdx = null;
+let isAnswered = false;
 
-            const box = document.getElementById('options-box');
-            box.innerHTML = '';
-            isAnswered = false;
-            selectedIdx = null;
+function render() {
+    const q = questions[currentQ];
 
-            const btn = document.getElementById('action-btn');
-            btn.innerText = "Ответить";
-            btn.disabled = true;
-            btn.classList.remove('btn-active', 'btn-next');
+    document.getElementById('q-text').innerText = q.text;
+    document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
+    document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
 
-            q.options.forEach((opt, i) => {
-                const div = document.createElement('div');
-                div.className = 'option';
-                div.innerHTML = `<div class="check-icon"></div><span>${opt}</span>`;
-                div.onclick = () => select(i, div);
-                box.appendChild(div);
-            });
+    const box = document.getElementById('options-box');
+    box.innerHTML = '';
+    isAnswered = false;
+    selectedIdx = null;
+
+    const btn = document.getElementById('action-btn');
+    btn.innerText = "Ответить";
+    btn.disabled = true;
+    btn.classList.remove('btn-active', 'btn-next');
+
+    q.options.forEach((opt, i) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.innerHTML = `<div class="check-icon"></div><span>${opt}</span>`;
+        div.onclick = () => select(i, div);
+        box.appendChild(div);
+    });
+}
+
+function select(idx, el) {
+    if (isAnswered) return;
+    selectedIdx = idx;
+    document.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+    el.classList.add('selected');
+
+    const btn = document.getElementById('action-btn');
+    btn.disabled = false;
+    btn.classList.add('btn-active');
+}
+
+function handleButtonClick() {
+    const btn = document.getElementById('action-btn');
+
+    if (!isAnswered) {
+        isAnswered = true;
+        const q = questions[currentQ];
+
+        document.querySelectorAll('.option').forEach((el, i) => {
+            el.classList.remove('selected');
+            if (i === q.correct) el.classList.add('correct');
+            else if (i === selectedIdx) el.classList.add('wrong');
+        });
+
+        btn.innerText = "Дальше";
+        btn.classList.add('btn-next');
+    } else {
+        currentQ++;
+        if (currentQ < questions.length) {
+            render();
+        } else {
+            alert("Круто! Ты выучил даты.");
+            tg.close();
         }
+    }
+}
 
-        function select(idx, el) {
-            if (isAnswered) return;
-            selectedIdx = idx;
-            document.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
-            el.classList.add('selected');
+window.addEventListener('DOMContentLoaded', () => {
+    tg.expand();
+    tg.ready();
+    render();
+});
+</script>
 
-            const btn = document.getElementById('action-btn');
-            btn.disabled = false;
-            btn.classList.add('btn-active');
-        }
-
-        function handleButtonClick() {
-            const btn = document.getElementById('action-btn');
-
-            if (!isAnswered) {
-                isAnswered = true;
-                const q = questions[currentQ];
-
-                document.querySelectorAll('.option').forEach((el, i) => {
-                    el.classList.remove('selected');
-                    if (i === q.correct) el.classList.add('correct');
-                    else if (i === selectedIdx) el.classList.add('wrong');
-                });
-
-                btn.innerText = "Дальше";
-                btn.classList.add('btn-next');
-            } else {
-                currentQ++;
-                if (currentQ < questions.length) {
-                    render();
-                } else {
-                    alert("Круто! Ты выучил даты.");
-                    tg.close();
-                }
-            }
-        }
-
-        tg.expand();
-        tg.ready();
-        render();
-    </script>
 </body>
 </html>
