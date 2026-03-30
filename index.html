@@ -14,18 +14,19 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #f5f6fa;
-            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding-bottom: 70px;
         }
 
         .header {
-            background: #fff;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
             padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #efeff4;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -34,7 +35,7 @@
         .close-btn {
             font-size: 24px;
             cursor: pointer;
-            color: #000;
+            color: #333;
             background: none;
             border: none;
             font-weight: 500;
@@ -42,23 +43,25 @@
 
         .tabs {
             display: flex;
-            background: #fff;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
             padding: 8px 16px;
             gap: 24px;
-            border-bottom: 1px solid #efeff4;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
 
         .tab {
             font-size: 15px;
-            color: #8e8e93;
+            color: #666;
             padding-bottom: 8px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
+            transition: all 0.3s;
         }
 
         .tab.active {
-            color: #3478f6;
-            border-bottom-color: #3478f6;
+            color: #667eea;
+            border-bottom-color: #667eea;
         }
 
         .content {
@@ -66,85 +69,109 @@
         }
 
         .subject-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .subject-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .topic-item {
-            padding: 12px;
-            margin-top: 8px;
-            background: #f8f9fc;
-            border-radius: 12px;
+            padding: 14px;
+            margin-top: 10px;
+            background: #f8f9ff;
+            border-radius: 14px;
             cursor: pointer;
-            border: 1px solid #efeff4;
+            border: 1px solid #e0e7ff;
+            transition: all 0.3s;
+        }
+
+        .topic-item:hover {
+            transform: translateX(5px);
+            background: #f0f4ff;
         }
 
         .topic-title {
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 6px;
+            color: #333;
         }
 
         .topic-meta {
             font-size: 12px;
-            color: #8e8e93;
+            color: #667eea;
         }
 
         .quiz-card {
-            background: #fff;
-            border-radius: 18px;
-            padding: 20px;
-            animation: fadeIn 0.3s ease;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 24px;
+            animation: fadeIn 0.4s ease;
         }
 
         .question-text {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            color: #333;
+            line-height: 1.4;
         }
 
         .option {
             padding: 14px;
-            border: 1px solid #e5e5ea;
-            border-radius: 12px;
+            border: 2px solid #e0e7ff;
+            border-radius: 14px;
             margin-bottom: 10px;
             cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
         }
 
         .option.selected {
-            border-color: #3478f6;
-            background-color: #f2f8ff;
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
         }
 
         .option.correct {
-            border-color: #4cd964;
-            background-color: #e8f9ee;
+            border-color: #10b981;
+            background: #10b98120;
         }
 
         .option.wrong {
-            border-color: #ff3b30;
-            background-color: #fff2f1;
+            border-color: #ef4444;
+            background: #ef444420;
         }
 
         .result-card {
-            background: #fff;
-            border-radius: 18px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
             padding: 32px 20px;
             text-align: center;
         }
 
         .result-score {
-            font-size: 48px;
-            font-weight: 700;
-            color: #3478f6;
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin: 20px 0;
         }
 
@@ -154,49 +181,117 @@
             left: 0;
             width: 100%;
             padding: 12px 16px;
-            background: #fff;
-            border-top: 1px solid #efeff4;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.1);
         }
 
         .btn-main {
             width: 100%;
-            background: #3478f6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
             border: none;
             padding: 14px;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             opacity: 0.5;
+            transition: all 0.3s;
         }
 
         .btn-main.active {
             opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: #f0f4ff;
+            color: #667eea;
+            border: none;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s;
         }
 
         .progress-bar {
-            height: 6px;
-            background: #e5e5ea;
+            height: 8px;
+            background: #e0e7ff;
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: #3478f6;
+            background: linear-gradient(90deg, #667eea, #764ba2);
             transition: width 0.4s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .hidden {
             display: none;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .wish-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .wish-text {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+            margin: 15px 0;
+            font-style: italic;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .emoji-big {
+            font-size: 64px;
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -204,12 +299,12 @@
 
 <div id="mainScreen">
     <div class="header">
-        <div></div>
+        <div>📅</div>
         <button class="close-btn" onclick="tg.close()">✕</button>
     </div>
 
     <div class="tabs">
-        <div class="tab active" data-tab="subjects">предметы</div>
+        <div class="tab active" data-tab="subjects">история</div>
         <div class="tab" data-tab="statistics">статистика</div>
         <div class="tab" data-tab="profile">профиль</div>
     </div>
@@ -247,9 +342,10 @@
     </div>
     <div class="content">
         <div class="result-card">
+            <div class="emoji-big" id="resultEmoji"></div>
             <div class="result-score" id="resultScore"></div>
             <button class="btn-main" onclick="backToMain()">На главную</button>
-            <button class="btn-secondary" onclick="retryQuiz()">Заново</button>
+            <button class="btn-secondary" onclick="retryQuiz()">Пройти заново</button>
         </div>
     </div>
 </div>
@@ -257,42 +353,49 @@
 <script>
 const tg = window.Telegram?.WebApp || {
     expand: () => {},
-    close: () => {}
+    close: () => {},
+    initDataUnsafe: { user: { first_name: "Гость", photo_url: null } }
 };
 
-// ТВОИ ДАННЫЕ - меняй здесь
+// Только история
 const subjects = {
-    обществоведение: {
-        topics: [
-            {
-                id: 1,
-                title: "Тема 1",
-                questions: [
-                    { text: "Вопрос 1?", options: ["Ответ 1", "Ответ 2", "Ответ 3"], correct: 0 },
-                    { text: "Вопрос 2?", options: ["Ответ 1", "Ответ 2", "Ответ 3"], correct: 1 }
-                ]
-            },
-            {
-                id: 2,
-                title: "Тема 2",
-                questions: [
-                    { text: "Вопрос 1?", options: ["Ответ 1", "Ответ 2"], correct: 0 }
-                ]
-            }
-        ]
-    },
     история: {
         topics: [
             {
-                id: 3,
-                title: "Тема 1",
+                id: 1,
+                title: "Важные даты",
                 questions: [
-                    { text: "Вопрос?", options: ["Вариант", "Вариант", "Вариант"], correct: 0 }
+                    { text: "Крещение Руси?", options: ["988 г.", "862 г.", "1054 г."], correct: 0 },
+                    { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 },
+                    { text: "Основание СПб?", options: ["1703 г.", "1712 г.", "1721 г."], correct: 0 },
+                    { text: "Отечественная война?", options: ["1812 г.", "1815 г.", "1805 г."], correct: 0 },
+                    { text: "Отмена крепостного права?", options: ["1861 г.", "1855 г.", "1865 г."], correct: 0 },
+                    { text: "Начало ВОВ?", options: ["1941 г.", "1939 г.", "1942 г."], correct: 0 },
+                    { text: "Первый полет в космос?", options: ["1961 г.", "1957 г.", "1965 г."], correct: 0 }
                 ]
             }
         ]
     }
 };
+
+// Пожелания
+const wishes = [
+    "🌟 Пусть каждый день приносит новые знания!",
+    "📚 История ждет своих героев! Ты справишься!",
+    "🎯 Учи даты — открывай мир!",
+    "💪 Ты сможешь все! Верь в себя!",
+    "⭐ Сегодня твой день для великих открытий!",
+    "🌍 Знание истории делает нас сильнее!",
+    "🎓 Учись с удовольствием!",
+    "🔥 Ты станешь настоящим историком!",
+    "✨ Каждая дата — это шаг к мудрости!",
+    "🏆 Вперед к новым победам!",
+    "📖 История — твой проводник в будущее!",
+    "💫 Ты уникален! Продолжай в том же духе!",
+    "🎉 Даты запоминаются легко, когда есть интерес!",
+    "⭐ Сегодня отличный день для учебы!",
+    "🚀 Учи историю — меняй будущее!"
+];
 
 let currentTopic = null;
 let currentQuestionIndex = 0;
@@ -300,10 +403,18 @@ let currentScore = 0;
 let selectedOption = null;
 let answered = false;
 let userProgress = {};
+let sessionStartTime = null;
+let studySessions = [];
+
+function getRandomWish() {
+    return wishes[Math.floor(Math.random() * wishes.length)];
+}
 
 function init() {
     tg.expand();
+    tg.ready();
     loadProgress();
+    sessionStartTime = Date.now();
     renderSubjects();
     
     document.querySelectorAll('.tab').forEach(tab => {
@@ -323,7 +434,7 @@ function init() {
                 renderStatistics();
             } else if (tab.dataset.tab === 'profile') {
                 document.getElementById('profileScreen').classList.remove('hidden');
-                document.getElementById('profileScreen').innerHTML = '<div style="text-align:center;padding:40px;">👤 Профиль</div>';
+                renderProfile();
             }
         });
     });
@@ -336,7 +447,7 @@ function renderSubjects() {
     for (const [name, data] of Object.entries(subjects)) {
         const card = document.createElement('div');
         card.className = 'subject-card';
-        card.innerHTML = `<div class="subject-name">${name}</div>`;
+        card.innerHTML = `<div class="subject-name">📜 ${name.toUpperCase()}</div>`;
         
         data.topics.forEach(topic => {
             const progress = userProgress[topic.id];
@@ -345,7 +456,7 @@ function renderSubjects() {
             div.onclick = () => startQuiz(topic);
             div.innerHTML = `
                 <div class="topic-title">${topic.title}</div>
-                <div class="topic-meta">${progress ? `${progress.bestScore}/${topic.questions.length}` : `${topic.questions.length} вопросов`}</div>
+                <div class="topic-meta">${progress ? `✅ ${progress.bestScore}/${topic.questions.length} дат выучено` : `📅 ${topic.questions.length} важных дат`}</div>
             `;
             card.appendChild(div);
         });
@@ -354,21 +465,87 @@ function renderSubjects() {
 }
 
 function renderStatistics() {
-    let total = 0, correct = 0;
+    let totalQuestions = 0;
+    let totalCorrect = 0;
+    let totalSessions = 0;
+    
     for (const [name, data] of Object.entries(subjects)) {
         data.topics.forEach(topic => {
             const progress = userProgress[topic.id];
             if (progress) {
-                total += topic.questions.length;
-                correct += progress.bestScore;
+                totalQuestions += topic.questions.length;
+                totalCorrect += progress.bestScore;
+                totalSessions += (progress.sessions || 1);
             }
         });
     }
+    
+    const percent = totalQuestions ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+    
+    let frequencyText = "";
+    if (totalSessions > 10) frequencyText = "🔥 Отлично! Ты почти историк!";
+    else if (totalSessions > 5) frequencyText = "📚 Хороший темп! Продолжай в том же духе!";
+    else if (totalSessions > 2) frequencyText = "💪 Неплохо! Учи даты чаще!";
+    else frequencyText = "🌱 Начинающий исследователь! Каждый день — новый шаг!";
+    
+    const emoji = percent >= 80 ? "🏆" : percent >= 50 ? "📚" : "🌱";
+    
     document.getElementById('statisticsScreen').innerHTML = `
-        <div style="text-align:center;padding:40px;">
-            <div style="font-size:48px;margin-bottom:20px;">📊</div>
-            <div style="font-size:32px;font-weight:bold;">${total ? Math.round(correct/total*100) : 0}%</div>
-            <div style="margin-top:20px;">✅ ${correct} / ${total}</div>
+        <div class="stat-card">
+            <div class="emoji-big">${emoji}</div>
+            <div class="stat-number">${percent}%</div>
+            <div style="margin: 10px 0 20px; color: #666;">правильных ответов</div>
+            <div style="background: #e0e7ff; border-radius: 10px; height: 8px; margin: 20px 0;">
+                <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 10px;"></div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="emoji-big">⏰</div>
+            <div class="stat-number">${totalSessions}</div>
+            <div style="margin: 10px 0; color: #666;">раз ты учил даты</div>
+            <div style="font-size: 14px; color: #667eea; margin-top: 10px;">${frequencyText}</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="emoji-big">🎯</div>
+            <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">${totalCorrect} / ${totalQuestions}</div>
+            <div style="color: #666;">дат запомнено</div>
+            <div style="margin-top: 15px; font-size: 14px;">${percent >= 80 ? "🎉 Ты настоящий знаток истории!" : "💪 Еще немного — и ты эксперт!"}</div>
+        </div>
+    `;
+}
+
+function renderProfile() {
+    const user = tg.initDataUnsafe?.user;
+    const firstName = user?.first_name || "Гость";
+    const photoUrl = user?.photo_url;
+    const randomWish = getRandomWish();
+    
+    const avatarHtml = photoUrl 
+        ? `<img src="${photoUrl}" style="width: 100px; height: 100px; border-radius: 50%; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">`
+        : `<div class="avatar">📖</div>`;
+    
+    document.getElementById('profileScreen').innerHTML = `
+        <div class="stat-card">
+            ${avatarHtml}
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">${firstName}</div>
+            <div style="color: #666;">любитель истории</div>
+        </div>
+        
+        <div class="wish-card">
+            <div style="font-size: 32px;">✨</div>
+            <div class="wish-text">"${randomWish}"</div>
+            <div style="margin-top: 15px; font-size: 12px; color: #667eea;">✨ новое пожелание при каждом входе ✨</div>
+        </div>
+        
+        <div class="stat-card">
+            <div style="font-size: 20px; margin-bottom: 15px;">📊 твой настрой</div>
+            <div style="font-size: 14px; line-height: 1.6;">
+                🌟 История — это не скучно<br>
+                📅 Каждая дата — ключ к пониманию<br>
+                🚀 Учись с удовольствием
+            </div>
         </div>
     `;
 }
@@ -391,7 +568,7 @@ function renderQuestion() {
     const q = currentTopic.questions[currentQuestionIndex];
     if (!q) return finishQuiz();
     
-    document.getElementById('q-text').innerText = q.text;
+    document.getElementById('q-text').innerHTML = `📅 ${q.text}`;
     document.getElementById('progress-fill').style.width = (currentQuestionIndex / currentTopic.questions.length) * 100 + "%";
     
     const box = document.getElementById('options-box');
@@ -436,7 +613,7 @@ function handleAnswer() {
         
         if (selectedOption === q.correct) currentScore++;
         
-        btn.innerText = "Дальше";
+        btn.innerText = "Дальше →";
     } else {
         currentQuestionIndex++;
         if (currentQuestionIndex < currentTopic.questions.length) renderQuestion();
@@ -445,15 +622,24 @@ function handleAnswer() {
 }
 
 function finishQuiz() {
-    if (!userProgress[currentTopic.id]) userProgress[currentTopic.id] = { bestScore: 0 };
+    if (!userProgress[currentTopic.id]) {
+        userProgress[currentTopic.id] = { bestScore: 0, sessions: 0 };
+    }
+    
     if (currentScore > userProgress[currentTopic.id].bestScore) {
         userProgress[currentTopic.id].bestScore = currentScore;
     }
+    
+    userProgress[currentTopic.id].sessions = (userProgress[currentTopic.id].sessions || 0) + 1;
     saveProgress();
+    
+    const percent = Math.round((currentScore / currentTopic.questions.length) * 100);
+    const emoji = percent === 100 ? "🎉🏆🎉" : percent >= 70 ? "📚⭐" : "💪🌱";
     
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
-    document.getElementById('resultScore').innerText = `${currentScore}/${currentTopic.questions.length}`;
+    document.getElementById('resultEmoji').innerHTML = emoji;
+    document.getElementById('resultScore').innerHTML = `${currentScore}/${currentTopic.questions.length}<div style="font-size: 16px; margin-top: 10px;">${percent}% дат запомнено</div>`;
 }
 
 function backToMain() {
@@ -473,11 +659,11 @@ function retryQuiz() {
 }
 
 function saveProgress() {
-    localStorage.setItem('progress', JSON.stringify(userProgress));
+    localStorage.setItem('historyProgress', JSON.stringify(userProgress));
 }
 
 function loadProgress() {
-    const saved = localStorage.getItem('progress');
+    const saved = localStorage.getItem('historyProgress');
     if (saved) userProgress = JSON.parse(saved);
 }
 
