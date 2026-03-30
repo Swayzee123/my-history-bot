@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -213,7 +212,7 @@ const SUPABASE_URL = "https://roakqdkabmtsemavyseh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dYmhQWEHHhUhcqLbxr6M_w_rhrk_S7z";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ========== ВСЕМИРНАЯ ИСТОРИЯ (полная версия) ==========
+// ========== ВСЕМИРНАЯ ИСТОРИЯ ==========
 const worldLessons = [
     {
         id: 1,
@@ -245,8 +244,7 @@ const worldLessons = [
             { text: "Когда были созваны Генеральные штаты во Франции?", options: ["1302 г.", "1265 г.", "1325 г."], correct: 0 },
             { text: "Когда пала Византийская империя?", options: ["1453 г.", "1455 г.", "1478 г."], correct: 0 },
             { text: "Когда было изобретено книгопечатание Гутенбергом?", options: ["1455 г.", "1453 г.", "1492 г."], correct: 0 },
-            { text: "Когда началась европейская колониальная экспансия?", options: ["1492 г.", "1495 г.", "1517 г."], correct: 0 },
-            { text: "Когда был принят Первый Статут ВКЛ?", options: ["1529 г.", "1517 г.", "1566 г."], correct: 0 }
+            { text: "Когда началась европейская колониальная экспансия?", options: ["1492 г.", "1495 г.", "1517 г."], correct: 0 }
         ]
     },
     {
@@ -310,7 +308,7 @@ const worldLessons = [
     }
 ];
 
-// ========== ИСТОРИЯ БЕЛАРУСИ (расширенная) ==========
+// ========== ИСТОРИЯ БЕЛАРУСИ ==========
 const belarusLessons = [
     {
         id: 10,
@@ -435,13 +433,11 @@ const belarusLessons = [
     }
 ];
 
-// Собираем все уроки
 const subjects = {
     world: { name: "🌍 Всемирная история", lessons: worldLessons },
     belarus: { name: "🇧🇾 История Беларуси", lessons: belarusLessons }
 };
 
-// Исторические факты
 const historyFacts = [
     "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
     "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
@@ -454,9 +450,7 @@ const historyFacts = [
     "📚 Библиотека Ивана Грозного до сих пор не найдена.",
     "🏛️ Древний Рим был основан в 753 году до н.э.",
     "🇧🇾 Первая столица Беларуси — Полоцк",
-    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе",
-    "✝️ Евфросиния Полоцкая стала первой женщиной, причисленной к лику святых на Руси",
-    "🏰 Несвижский замок — одна из главных достопримечательностей Беларуси"
+    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе"
 ];
 
 let currentLesson = null, currentQuestionIndex = 0, currentScore = 0, selectedOption = null, answered = false, currentUser = null, currentTab = "subjects";
@@ -659,4 +653,3 @@ initUser().then(() => {
 
 </body>
 </html>
-```
