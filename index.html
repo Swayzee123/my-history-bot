@@ -4,44 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; margin: 0; padding: 20px; color: #333; -webkit-tap-highlight-color: transparent; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #8e8e93; font-size: 13px; }
-        .close-btn { font-size: 24px; cursor: pointer; color: #000; padding: 5px; }
-        .question-text { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 25px; min-height: 50px; }
-        .option { display: flex; align-items: center; padding: 16px; border: 1px solid #e5e5ea; border-radius: 12px; margin-bottom: 10px; cursor: pointer; position: relative; transition: all 0.2s ease; }
-        .check-icon { width: 20px; height: 20px; border: 2px solid #d1d1d6; border-radius: 4px; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
-        .option.selected { border-color: #3478f6; background-color: #f2f8ff; }
-        .option.selected .check-icon { border-color: #3478f6; background-color: #3478f6; color: #fff; }
-        .option.selected .check-icon::after { content: "✓"; }
-        .option.correct { background-color: #e8f9ee !important; border-color: #4cd964 !important; pointer-events: none; }
-        .option.correct .check-icon { border-color: #4cd964 !important; background-color: #4cd964 !important; color: #fff; }
-        .option.correct .check-icon::after { content: "✓"; }
-        .option.correct::after { content: "✓"; position: absolute; right: 20px; color: #4cd964; font-size: 20px; font-weight: bold; }
-        .option.wrong { background-color: #fff2f1 !important; border-color: #ff3b30 !important; pointer-events: none; }
-        .option.wrong .check-icon { border-color: #ff3b30 !important; background-color: #ff3b30 !important; color: #fff; }
-        .option.wrong .check-icon::after { content: "✕"; }
-        .option.wrong::after { content: "✕"; position: absolute; right: 20px; color: #ff3b30; font-size: 20px; font-weight: bold; }
-        .footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 16px 20px; background: #fff; border-top: 1px solid #efeff4; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
-        .btn-main { background: #3478f6; color: #fff; border: none; padding: 14px 35px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; opacity: 0.5; }
-        .btn-active { opacity: 1; }
-        .btn-next { background: #ff5722 !important; opacity: 1; }
-        .progress { color: #8e8e93; font-size: 16px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f5f6fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #8e8e93;
+            font-size: 13px;
+        }
+
+        .close-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 6px;
+            background: #e5e5ea;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3478f6, #6aa8ff);
+            transition: width 0.4s ease;
+        }
+
+        /* Card */
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            border: 1px solid #e5e5ea;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #f2f8ff;
+        }
+
+        .option.selected {
+            border-color: #3478f6;
+            background-color: #f2f8ff;
+        }
+
+        .option.correct {
+            border-color: #4cd964;
+            background-color: #e8f9ee;
+        }
+
+        .option.wrong {
+            border-color: #ff3b30;
+            background-color: #fff2f1;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 20px;
+            background: #fff;
+            border-top: 1px solid #efeff4;
+            box-sizing: border-box;
+        }
+
+        /* Gradient button */
+        .btn-main {
+            width: 100%;
+            background: linear-gradient(90deg, #3478f6, #6aa8ff);
+            color: #fff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: 0.2s;
+        }
+
+        .btn-main.active {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
 
 <div class="header">
     <div class="close-btn" onclick="tg.close()">✕</div>
-    <div id="top-counter">1 / 10</div>
+    <div id="counter">1 / 10</div>
 </div>
 
-<div class="question-text" id="q-text">Загрузка...</div>
-<div id="options-box"></div>
+<div class="progress-bar">
+    <div class="progress-fill" id="progress-fill"></div>
+</div>
+
+<div class="card">
+    <div class="question-text" id="q-text">Загрузка...</div>
+    <div id="options-box"></div>
+</div>
 
 <div class="footer">
-    <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
-    <div class="progress" id="bottom-counter">1 / 10</div>
+    <button class="btn-main" id="action-btn" disabled onclick="handleClick()">Ответить</button>
 </div>
 
 <script>
@@ -54,78 +156,67 @@ const tg = window.Telegram?.WebApp || {
 const questions = [
     { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
     { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
-    { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
-    { text: "Отмена крепостного права в России?", options: ["1812 год", "1861 год", "1881 год"], correct: 1 },
-    { text: "Первый полет человека в космос?", options: ["1957 год", "1961 год", "1969 год"], correct: 1 },
-    { text: "Начало Первой мировой войны?", options: ["1914 год", "1939 год", "1905 год"], correct: 0 },
-    { text: "Распад СССР?", options: ["1985 год", "1991 год", "2000 год"], correct: 1 },
-    { text: "Бородинское сражение произошло в...", options: ["1812 году", "1853 году", "1709 году"], correct: 0 },
-    { text: "Венчание Ивана Грозного на царство?", options: ["1547 год", "1533 год", "1584 год"], correct: 0 },
-    { text: "Принятие текущей Конституции РФ?", options: ["1991 год", "1993 год", "1995 год"], correct: 1 }
+    { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 }
 ];
 
-let currentQ = 0;
-let selectedIdx = null;
-let isAnswered = false;
+let current = 0;
+let selected = null;
+let answered = false;
 
 function render() {
-    const q = questions[currentQ];
-
+    const q = questions[current];
     document.getElementById('q-text').innerText = q.text;
-    document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
-    document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
+    document.getElementById('counter').innerText = `${current+1} / ${questions.length}`;
+
+    const percent = (current / questions.length) * 100;
+    document.getElementById('progress-fill').style.width = percent + "%";
 
     const box = document.getElementById('options-box');
     box.innerHTML = '';
-    isAnswered = false;
-    selectedIdx = null;
+    selected = null;
+    answered = false;
 
     const btn = document.getElementById('action-btn');
-    btn.innerText = "Ответить";
     btn.disabled = true;
-    btn.classList.remove('btn-active', 'btn-next');
+    btn.classList.remove('active');
+    btn.innerText = "Ответить";
 
     q.options.forEach((opt, i) => {
         const div = document.createElement('div');
         div.className = 'option';
-        div.innerHTML = `<div class="check-icon"></div><span>${opt}</span>`;
-        div.onclick = () => select(i, div);
+        div.innerText = opt;
+        div.onclick = () => selectOption(i, div);
         box.appendChild(div);
     });
 }
 
-function select(idx, el) {
-    if (isAnswered) return;
-    selectedIdx = idx;
-    document.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
+function selectOption(i, el) {
+    if (answered) return;
+    selected = i;
+    document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
 
     const btn = document.getElementById('action-btn');
     btn.disabled = false;
-    btn.classList.add('btn-active');
+    btn.classList.add('active');
 }
 
-function handleButtonClick() {
+function handleClick() {
+    const q = questions[current];
     const btn = document.getElementById('action-btn');
 
-    if (!isAnswered) {
-        isAnswered = true;
-        const q = questions[currentQ];
-
+    if (!answered) {
+        answered = true;
         document.querySelectorAll('.option').forEach((el, i) => {
-            el.classList.remove('selected');
             if (i === q.correct) el.classList.add('correct');
-            else if (i === selectedIdx) el.classList.add('wrong');
+            else if (i === selected) el.classList.add('wrong');
         });
-
         btn.innerText = "Дальше";
-        btn.classList.add('btn-next');
     } else {
-        currentQ++;
-        if (currentQ < questions.length) {
-            render();
-        } else {
-            alert("Круто! Ты выучил даты.");
+        current++;
+        if (current < questions.length) render();
+        else {
+            alert("Готово!");
             tg.close();
         }
     }
