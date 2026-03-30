@@ -8,75 +8,55 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fff; margin: 0; padding: 20px; color: #333; -webkit-tap-highlight-color: transparent; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #8e8e93; font-size: 13px; }
         .back-btn { font-size: 24px; cursor: pointer; color: #000; }
-        .question-text { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 25px; }
-        
+        .question-text { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 25px; min-height: 50px; }
         .options-container { margin-bottom: 100px; }
-        
-        /* Базовый стиль кнопки-варианта */
-        .option {
-            display: flex; align-items: center; padding: 16px; border: 1px solid #e5e5ea;
-            border-radius: 12px; margin-bottom: 10px; cursor: pointer; position: relative;
-            transition: all 0.2s ease;
-        }
-
-        /* Кастомный квадратик слева */
-        .check-icon {
-            width: 20px; height: 20px; border: 2px solid #d1d1d6; border-radius: 4px;
-            margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            font-size: 14px; font-weight: bold;
-        }
-
-        /* Когда вариант просто выбран пользователем */
+        .option { display: flex; align-items: center; padding: 16px; border: 1px solid #e5e5ea; border-radius: 12px; margin-bottom: 10px; cursor: pointer; position: relative; transition: all 0.2s ease; }
+        .check-icon { width: 20px; height: 20px; border: 2px solid #d1d1d6; border-radius: 4px; margin-right: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
         .option.selected { border-color: #3478f6; background-color: #f2f8ff; }
         .option.selected .check-icon { border-color: #3478f6; background-color: #3478f6; color: #fff; }
         .option.selected .check-icon::after { content: "✓"; }
-
-        /* Состояние ПРАВИЛЬНО (Зеленый) */
         .option.correct { background-color: #e8f9ee; border-color: #4cd964; pointer-events: none; }
         .option.correct .check-icon { border-color: #4cd964; background-color: #4cd964; color: #fff; }
         .option.correct .check-icon::after { content: "✓"; }
-        .option.correct::after { content: "✓"; position: absolute; right: 20px; color: #4cd964; font-size: 20px; }
-
-        /* Состояние НЕПРАВИЛЬНО (Красный) */
+        .option.correct::after { content: "✓"; position: absolute; right: 20px; color: #4cd964; font-size: 20px; font-weight: bold; }
         .option.wrong { background-color: #fff2f1; border-color: #ff3b30; pointer-events: none; }
         .option.wrong .check-icon { border-color: #ff3b30; background-color: #ff3b30; color: #fff; }
         .option.wrong .check-icon::after { content: "✕"; }
-        .option.wrong::after { content: "✕"; position: absolute; right: 20px; color: #ff3b30; font-size: 20px; }
-
-        /* Подсказка правильного ответа (если пользователь не угадал) */
-        .option.should-have { background-color: #fff2f1; border-color: #ff3b30; pointer-events: none; }
-        .option.should-have::after { content: "✓"; position: absolute; right: 20px; color: #ff3b30; font-size: 20px; }
-
+        .option.wrong::after { content: "✕"; position: absolute; right: 20px; color: #ff3b30; font-size: 20px; font-weight: bold; }
         .footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 16px 20px; background: #fff; border-top: 1px solid #efeff4; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
-        .btn-main { background: #ff5722; color: #fff; border: none; padding: 14px 35px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
-        .btn-main:disabled { background: #ffccbc; cursor: not-allowed; }
-        .btn-next { background: #3478f6; } /* Цвет кнопки для перехода к след. вопросу */
+        .btn-main { background: #3478f6; color: #fff; border: none; padding: 14px 35px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; opacity: 0.5; }
+        .btn-active { opacity: 1; }
+        .btn-next { background: #ff5722 !important; opacity: 1; }
         .progress { color: #8e8e93; font-size: 16px; }
     </style>
 </head>
 <body>
-
     <div class="header">
         <div class="back-btn" onclick="tg.close()">✕</div>
-        <div>1 / 20</div>
+        <div id="top-counter">1 / 20</div>
     </div>
-
-    <div class="question-text" id="q-text">Загрузка вопроса...</div>
-
+    <div class="question-text" id="q-text">Загрузка...</div>
     <div class="options-container" id="options-box"></div>
-
     <div class="footer">
         <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
-        <div class="progress" id="counter">1 / 20</div>
+        <div class="progress" id="bottom-counter">1 / 20</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.ready();
 
         const questions =, correct: 0 },
-            { text: "Год основания Москвы?", options: ["1147 год", "1380 год", "1547 год"], correct: 0 },
-            { text: "Начало Первой мировой войны?", options: ["1914 год", "1939 год", "1917 год"], correct: 0 }
+            { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
+            { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
+            { text: "Отмена крепостного права в России?", options: ["1812 год", "1861 год", "1881 год"], correct: 1 },
+            { text: "Первый полет человека в космос?", options: ["1957 год", "1961 год", "1969 год"], correct: 1 },
+            { text: "Начало Первой мировой войны?", options: ["1914 год", "1939 год", "1905 год"], correct: 0 },
+            { text: "Распад СССР?", options: ["1985 год", "1991 год", "2000 год"], correct: 1 },
+            { text: "Бородинское сражение произошло в...", options: ["1812 году", "1853 году", "1709 году"], correct: 0 },
+            { text: "Венчание Ивана Грозного на царство?", options: ["1547 год", "1533 год", "1584 год"], correct: 0 },
+            { text: "Принятие текущей Конституции РФ?", options: ["1991 год", "1993 год", "1995 год"], correct: 1 }
         ];
 
         let currentQ = 0;
@@ -86,7 +66,8 @@
         function render() {
             const q = questions[currentQ];
             document.getElementById('q-text').innerText = q.text;
-            document.getElementById('counter').innerText = `${currentQ + 1} / ${questions.length}`;
+            document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
+            document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
             
             const box = document.getElementById('options-box');
             box.innerHTML = '';
@@ -96,7 +77,7 @@
             const btn = document.getElementById('action-btn');
             btn.innerText = "Ответить";
             btn.disabled = true;
-            btn.classList.remove('btn-next');
+            btn.classList.remove('btn-active', 'btn-next');
 
             q.options.forEach((opt, i) => {
                 const div = document.createElement('div');
@@ -112,7 +93,9 @@
             selectedIdx = idx;
             document.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
             el.classList.add('selected');
-            document.getElementById('action-btn').disabled = false;
+            const btn = document.getElementById('action-btn');
+            btn.disabled = false;
+            btn.classList.add('btn-active');
         }
 
         function handleButtonClick() {
@@ -132,9 +115,9 @@
             options.forEach((el, i) => {
                 el.classList.remove('selected');
                 if (i === q.correct) {
-                    el.classList.add('correct'); // Правильный всегда зеленый
+                    el.classList.add('correct');
                 } else if (i === selectedIdx) {
-                    el.classList.add('wrong'); // Если выбрал неверно - этот красный
+                    el.classList.add('wrong');
                 }
             });
 
@@ -147,12 +130,13 @@
             if (currentQ < questions.length) {
                 render();
             } else {
-                alert("Тест завершен!");
+                alert("Круто! Ты выучил все даты.");
                 tg.close();
             }
         }
 
-        render();
+        // Запуск после загрузки страницы
+        window.onload = render;
     </script>
 </body>
 </html>
