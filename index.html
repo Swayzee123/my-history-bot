@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script src="https://telegram.org"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; margin: 0; padding: 20px; color: #333; -webkit-tap-highlight-color: transparent; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #8e8e93; font-size: 13px; }
@@ -34,8 +34,10 @@
         <div class="close-btn" onclick="window.Telegram.WebApp.close()">✕</div>
         <div id="top-counter">1 / 10</div>
     </div>
+
     <div class="question-text" id="q-text">Загрузка...</div>
     <div id="options-box"></div>
+
     <div class="footer">
         <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
         <div class="progress" id="bottom-counter">1 / 10</div>
@@ -43,7 +45,9 @@
 
     <script>
         const tg = window.Telegram.WebApp;
-        const questions =, correct: 0 },
+
+        const questions = [
+            { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
             { text: "В каком году была Куликовская битва?", options: ["1240 год", "1380 год", "1480 год"], correct: 1 },
             { text: "Основание Санкт-Петербурга?", options: ["1703 год", "1721 год", "1712 год"], correct: 0 },
             { text: "Отмена крепостного права в России?", options: ["1812 год", "1861 год", "1881 год"], correct: 1 },
@@ -61,18 +65,15 @@
 
         function render() {
             const q = questions[currentQ];
-            const qText = document.getElementById('q-text');
-            if(!qText) return;
-            
-            qText.innerText = q.text;
+            document.getElementById('q-text').innerText = q.text;
             document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
             document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
-            
+
             const box = document.getElementById('options-box');
             box.innerHTML = '';
             isAnswered = false;
             selectedIdx = null;
-            
+
             const btn = document.getElementById('action-btn');
             btn.innerText = "Ответить";
             btn.disabled = true;
@@ -92,35 +93,41 @@
             selectedIdx = idx;
             document.querySelectorAll('.option').forEach(item => item.classList.remove('selected'));
             el.classList.add('selected');
+
             const btn = document.getElementById('action-btn');
             btn.disabled = false;
             btn.classList.add('btn-active');
         }
 
         function handleButtonClick() {
+            const btn = document.getElementById('action-btn');
+
             if (!isAnswered) {
                 isAnswered = true;
                 const q = questions[currentQ];
+
                 document.querySelectorAll('.option').forEach((el, i) => {
                     el.classList.remove('selected');
                     if (i === q.correct) el.classList.add('correct');
                     else if (i === selectedIdx) el.classList.add('wrong');
                 });
-                const btn = document.getElementById('action-btn');
+
                 btn.innerText = "Дальше";
                 btn.classList.add('btn-next');
             } else {
                 currentQ++;
-                if (currentQ < questions.length) render();
-                else { alert("Круто! Ты выучил даты."); tg.close(); }
+                if (currentQ < questions.length) {
+                    render();
+                } else {
+                    alert("Круто! Ты выучил даты.");
+                    tg.close();
+                }
             }
         }
 
         tg.expand();
         tg.ready();
-        render(); // Запуск отрисовки
+        render();
     </script>
 </body>
 </html>
-
-
