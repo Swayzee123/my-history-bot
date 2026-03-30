@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fff; margin: 0; padding: 20px; color: #333; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #fff; margin: 0; padding: 20px; color: #333; -webkit-tap-highlight-color: transparent; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; color: #8e8e93; font-size: 13px; }
         .close-btn { font-size: 24px; cursor: pointer; color: #000; padding: 5px; }
         .question-text { font-size: 17px; font-weight: 600; line-height: 1.4; margin-bottom: 25px; min-height: 50px; }
@@ -16,18 +16,15 @@
         .option.selected .check-icon::after { content: "✓"; }
         .option.correct { background-color: #e8f9ee !important; border-color: #4cd964 !important; pointer-events: none; }
         .option.correct .check-icon { border-color: #4cd964 !important; background-color: #4cd964 !important; color: #fff; }
-        .option.correct .check-icon::after { content: "✓"; }
         .option.correct::after { content: "✓"; position: absolute; right: 20px; color: #4cd964; font-size: 20px; font-weight: bold; }
         .option.wrong { background-color: #fff2f1 !important; border-color: #ff3b30 !important; pointer-events: none; }
         .option.wrong .check-icon { border-color: #ff3b30 !important; background-color: #ff3b30 !important; color: #fff; }
-        .option.wrong .check-icon::after { content: "✕"; }
         .option.wrong::after { content: "✕"; position: absolute; right: 20px; color: #ff3b30; font-size: 20px; font-weight: bold; }
-        .footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 16px 20px; background: #fff; border-top: 1px solid #efeff4; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 100; }
+        .footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 16px 20px; background: #fff; border-top: 1px solid #efeff4; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
         .btn-main { background: #3478f6; color: #fff; border: none; padding: 14px 35px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; opacity: 0.5; }
         .btn-active { opacity: 1; }
         .btn-next { background: #ff5722 !important; opacity: 1; }
         .progress { color: #8e8e93; font-size: 16px; }
-        #options-box { padding-bottom: 80px; }
     </style>
 </head>
 <body>
@@ -35,7 +32,7 @@
         <div class="close-btn" onclick="window.Telegram.WebApp.close()">✕</div>
         <div id="top-counter">1 / 10</div>
     </div>
-    <div class="question-text" id="q-text">Загрузка вопроса...</div>
+    <div class="question-text" id="q-text">Загрузка...</div>
     <div id="options-box"></div>
     <div class="footer">
         <button class="btn-main" id="action-btn" onclick="handleButtonClick()" disabled>Ответить</button>
@@ -64,7 +61,10 @@
 
         function render() {
             const q = questions[currentQ];
-            document.getElementById('q-text').innerText = q.text;
+            const qElement = document.getElementById('q-text');
+            if (!qElement) return;
+
+            qElement.innerText = q.text;
             document.getElementById('top-counter').innerText = `${currentQ + 1} / ${questions.length}`;
             document.getElementById('bottom-counter').innerText = `${currentQ + 1} / ${questions.length}`;
             
@@ -134,10 +134,13 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            tg.ready();
+        // Самый надежный способ запуска
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', render);
+        } else {
             render();
-        });
+        }
+        tg.ready();
     </script>
 </body>
 </html>
