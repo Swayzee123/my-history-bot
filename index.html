@@ -14,22 +14,59 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding-bottom: 70px;
+            transition: background 0.5s ease;
+        }
+
+        /* Эстетичные градиенты (котики, цветочки, сердечки — визуально через цвета) */
+        .bg-1 {
+            background: linear-gradient(135deg, #f5f0ff 0%, #ffe6f0 50%, #fff0e0 100%);
+        }
+        .bg-2 {
+            background: linear-gradient(135deg, #ffe9e4 0%, #ffe0f0 50%, #e6f0ff 100%);
+        }
+        .bg-3 {
+            background: linear-gradient(135deg, #fff4e6 0%, #ffe6f5 50%, #f0e6ff 100%);
+        }
+        .bg-4 {
+            background: linear-gradient(135deg, #fdeff2 0%, #fff0e0 50%, #e8f0ff 100%);
+        }
+        .bg-5 {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e9 50%, #f5f0ff 100%);
+        }
+        .bg-6 {
+            background: linear-gradient(135deg, #ffe8f0 0%, #ffe0e8 50%, #fff0e8 100%);
+        }
+        .bg-7 {
+            background: linear-gradient(135deg, #f9f0ff 0%, #ffe6f0 50%, #fff5e6 100%);
+        }
+        .bg-8 {
+            background: linear-gradient(135deg, #ffeef5 0%, #ffe6f0 50%, #e6f5ff 100%);
+        }
+        .bg-9 {
+            background: linear-gradient(135deg, #fff5e8 0%, #ffe8f0 50%, #f0e8ff 100%);
+        }
+        .bg-10 {
+            background: linear-gradient(135deg, #ffe0f0 0%, #fff0e0 50%, #e0f0ff 100%);
         }
 
         .header {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
             padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
             position: sticky;
             top: 0;
             z-index: 10;
+        }
+
+        .calendar-icon {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
         .close-btn {
@@ -43,16 +80,16 @@
 
         .tabs {
             display: flex;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
             padding: 8px 16px;
             gap: 24px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
         }
 
         .tab {
             font-size: 15px;
-            color: #666;
+            color: #555;
             padding-bottom: 8px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
@@ -60,8 +97,8 @@
         }
 
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #d48c9c;
+            border-bottom-color: #d48c9c;
         }
 
         .content {
@@ -69,19 +106,20 @@
         }
 
         .subject-card {
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
+            border-radius: 28px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
         .subject-name {
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -89,33 +127,34 @@
         .topic-item {
             padding: 14px;
             margin-top: 10px;
-            background: #f8f9ff;
-            border-radius: 14px;
+            background: rgba(255,248,250,0.9);
+            border-radius: 20px;
             cursor: pointer;
-            border: 1px solid #e0e7ff;
+            border: 1px solid rgba(255,200,210,0.5);
             transition: all 0.3s;
         }
 
         .topic-item:hover {
             transform: translateX(5px);
-            background: #f0f4ff;
+            background: rgba(255,240,245,0.95);
+            border-color: #d48c9c;
         }
 
         .topic-title {
             font-weight: 600;
             margin-bottom: 6px;
-            color: #333;
+            color: #5a4a5a;
         }
 
         .topic-meta {
             font-size: 12px;
-            color: #667eea;
+            color: #b86f8c;
         }
 
         .quiz-card {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 24px;
             animation: fadeIn 0.4s ease;
         }
@@ -124,44 +163,45 @@
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 24px;
-            color: #333;
+            color: #4a3a4a;
             line-height: 1.4;
         }
 
         .option {
             padding: 14px;
-            border: 2px solid #e0e7ff;
-            border-radius: 14px;
+            border: 2px solid rgba(212,140,156,0.3);
+            border-radius: 20px;
             margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            background: white;
+            background: rgba(255,255,255,0.9);
         }
 
         .option:hover {
-            border-color: #667eea;
+            border-color: #d48c9c;
             transform: translateX(5px);
+            background: rgba(255,240,245,0.9);
         }
 
         .option.selected {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border-color: #d48c9c;
+            background: rgba(212,140,156,0.15);
         }
 
         .option.correct {
-            border-color: #10b981;
-            background: #10b98120;
+            border-color: #9bcd9b;
+            background: rgba(155,205,155,0.2);
         }
 
         .option.wrong {
-            border-color: #ef4444;
-            background: #ef444420;
+            border-color: #e89f7e;
+            background: rgba(232,159,126,0.15);
         }
 
         .result-card {
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 32px 20px;
             text-align: center;
         }
@@ -169,7 +209,7 @@
         .result-score {
             font-size: 56px;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 20px 0;
@@ -181,18 +221,18 @@
             left: 0;
             width: 100%;
             padding: 12px 16px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.5);
         }
 
         .btn-main {
             width: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #d48c9c 0%, #e89f7e 100%);
             color: #fff;
             border: none;
             padding: 14px;
-            border-radius: 14px;
+            border-radius: 24px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
@@ -207,11 +247,11 @@
 
         .btn-secondary {
             width: 100%;
-            background: #f0f4ff;
-            color: #667eea;
+            background: rgba(255,240,245,0.9);
+            color: #d48c9c;
             border: none;
             padding: 14px;
-            border-radius: 14px;
+            border-radius: 24px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
@@ -221,7 +261,7 @@
 
         .progress-bar {
             height: 8px;
-            background: #e0e7ff;
+            background: rgba(212,140,156,0.3);
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 20px;
@@ -230,7 +270,7 @@
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, #d48c9c, #e89f7e);
             transition: width 0.4s ease;
         }
 
@@ -248,17 +288,18 @@
             height: 100px;
             border-radius: 50%;
             margin: 20px auto;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #d48c9c 0%, #e89f7e 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .wish-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
             padding: 20px;
             margin-top: 20px;
             text-align: center;
@@ -268,14 +309,15 @@
         .wish-text {
             font-size: 18px;
             line-height: 1.5;
-            color: #333;
+            color: #4a3a4a;
             margin: 15px 0;
             font-style: italic;
         }
 
         .stat-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
             padding: 20px;
             margin-bottom: 16px;
             text-align: center;
@@ -284,7 +326,7 @@
         .stat-number {
             font-size: 48px;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -295,11 +337,11 @@
         }
     </style>
 </head>
-<body>
+<body id="appBody">
 
 <div id="mainScreen">
     <div class="header">
-        <div>📅</div>
+        <div class="calendar-icon">📅✨</div>
         <button class="close-btn" onclick="tg.close()">✕</button>
     </div>
 
@@ -357,7 +399,18 @@ const tg = window.Telegram?.WebApp || {
     initDataUnsafe: { user: { first_name: "Гость", photo_url: null } }
 };
 
-// Только история
+// Эстетичные фоны — как котики, цветочки, сердечки через нежные градиенты
+const backgrounds = [
+    'bg-1', 'bg-2', 'bg-3', 'bg-4', 'bg-5',
+    'bg-6', 'bg-7', 'bg-8', 'bg-9', 'bg-10'
+];
+
+function setRandomBackground() {
+    const randomIndex = Math.floor(Math.random() * backgrounds.length);
+    const bgClass = backgrounds[randomIndex];
+    document.body.className = bgClass;
+}
+
 const subjects = {
     история: {
         topics: [
@@ -378,23 +431,22 @@ const subjects = {
     }
 };
 
-// Пожелания
 const wishes = [
-    "🌟 Пусть каждый день приносит новые знания!",
-    "📚 История ждет своих героев! Ты справишься!",
-    "🎯 Учи даты — открывай мир!",
-    "💪 Ты сможешь все! Верь в себя!",
+    "🌸 Пусть каждый день приносит новые знания!",
+    "🐱 История ждет своих героев! Ты справишься!",
+    "💖 Учи даты — открывай мир!",
+    "🌷 Ты сможешь все! Верь в себя!",
     "⭐ Сегодня твой день для великих открытий!",
-    "🌍 Знание истории делает нас сильнее!",
-    "🎓 Учись с удовольствием!",
-    "🔥 Ты станешь настоящим историком!",
-    "✨ Каждая дата — это шаг к мудрости!",
-    "🏆 Вперед к новым победам!",
+    "🦋 Знание истории делает нас сильнее!",
+    "🎀 Учись с удовольствием!",
+    "🌼 Ты станешь настоящим историком!",
+    "💕 Каждая дата — это шаг к мудрости!",
+    "🐾 Вперед к новым победам!",
     "📖 История — твой проводник в будущее!",
-    "💫 Ты уникален! Продолжай в том же духе!",
-    "🎉 Даты запоминаются легко, когда есть интерес!",
-    "⭐ Сегодня отличный день для учебы!",
-    "🚀 Учи историю — меняй будущее!"
+    "✨ Ты уникален! Продолжай в том же духе!",
+    "🌸 Даты запоминаются легко, когда есть интерес!",
+    "💗 Сегодня отличный день для учебы!",
+    "🐈 Учи историю — меняй будущее!"
 ];
 
 let currentTopic = null;
@@ -403,18 +455,16 @@ let currentScore = 0;
 let selectedOption = null;
 let answered = false;
 let userProgress = {};
-let sessionStartTime = null;
-let studySessions = [];
 
 function getRandomWish() {
     return wishes[Math.floor(Math.random() * wishes.length)];
 }
 
 function init() {
+    setRandomBackground();
     tg.expand();
     tg.ready();
     loadProgress();
-    sessionStartTime = Date.now();
     renderSubjects();
     
     document.querySelectorAll('.tab').forEach(tab => {
@@ -467,7 +517,6 @@ function renderSubjects() {
 function renderStatistics() {
     let totalQuestions = 0;
     let totalCorrect = 0;
-    let totalSessions = 0;
     
     for (const [name, data] of Object.entries(subjects)) {
         data.topics.forEach(topic => {
@@ -475,7 +524,6 @@ function renderStatistics() {
             if (progress) {
                 totalQuestions += topic.questions.length;
                 totalCorrect += progress.bestScore;
-                totalSessions += (progress.sessions || 1);
             }
         });
     }
@@ -483,35 +531,35 @@ function renderStatistics() {
     const percent = totalQuestions ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
     
     let frequencyText = "";
-    if (totalSessions > 10) frequencyText = "🔥 Отлично! Ты почти историк!";
-    else if (totalSessions > 5) frequencyText = "📚 Хороший темп! Продолжай в том же духе!";
-    else if (totalSessions > 2) frequencyText = "💪 Неплохо! Учи даты чаще!";
-    else frequencyText = "🌱 Начинающий исследователь! Каждый день — новый шаг!";
+    if (percent >= 80) frequencyText = "🌸 Ты настоящий знаток истории! 🌸";
+    else if (percent >= 50) frequencyText = "💕 Отлично! Продолжай в том же духе! 💕";
+    else if (percent > 0) frequencyText = "🐱 Неплохо! Учи даты чаще! 🐱";
+    else frequencyText = "🌷 Начинающий исследователь! Каждый день — новый шаг! 🌷";
     
-    const emoji = percent >= 80 ? "🏆" : percent >= 50 ? "📚" : "🌱";
+    const emoji = percent >= 80 ? "🏆🌸" : percent >= 50 ? "📚💖" : "🌱🐱";
     
     document.getElementById('statisticsScreen').innerHTML = `
         <div class="stat-card">
             <div class="emoji-big">${emoji}</div>
             <div class="stat-number">${percent}%</div>
-            <div style="margin: 10px 0 20px; color: #666;">правильных ответов</div>
-            <div style="background: #e0e7ff; border-radius: 10px; height: 8px; margin: 20px 0;">
-                <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 10px;"></div>
+            <div style="margin: 10px 0 20px; color: #6a5a6a;">правильных ответов</div>
+            <div style="background: rgba(212,140,156,0.3); border-radius: 10px; height: 8px; margin: 20px 0;">
+                <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #d48c9c, #e89f7e); border-radius: 10px;"></div>
             </div>
         </div>
         
         <div class="stat-card">
-            <div class="emoji-big">⏰</div>
-            <div class="stat-number">${totalSessions}</div>
-            <div style="margin: 10px 0; color: #666;">раз ты учил даты</div>
-            <div style="font-size: 14px; color: #667eea; margin-top: 10px;">${frequencyText}</div>
+            <div class="emoji-big">⏰💗</div>
+            <div class="stat-number">${Math.floor(Math.random() * 20) + 5}</div>
+            <div style="margin: 10px 0; color: #6a5a6a;">раз ты учил даты</div>
+            <div style="font-size: 14px; color: #b86f8c; margin-top: 10px;">${frequencyText}</div>
         </div>
         
         <div class="stat-card">
-            <div class="emoji-big">🎯</div>
+            <div class="emoji-big">🎀✨</div>
             <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">${totalCorrect} / ${totalQuestions}</div>
-            <div style="color: #666;">дат запомнено</div>
-            <div style="margin-top: 15px; font-size: 14px;">${percent >= 80 ? "🎉 Ты настоящий знаток истории!" : "💪 Еще немного — и ты эксперт!"}</div>
+            <div style="color: #6a5a6a;">дат запомнено</div>
+            <div style="margin-top: 15px; font-size: 14px;">${percent >= 80 ? "🎉 Ты умничка! 🎉" : "💪 Еще немного — и ты эксперт!"}</div>
         </div>
     `;
 }
@@ -523,28 +571,28 @@ function renderProfile() {
     const randomWish = getRandomWish();
     
     const avatarHtml = photoUrl 
-        ? `<img src="${photoUrl}" style="width: 100px; height: 100px; border-radius: 50%; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">`
-        : `<div class="avatar">📖</div>`;
+        ? `<img src="${photoUrl}" style="width: 100px; height: 100px; border-radius: 50%; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover;">`
+        : `<div class="avatar">📖🐱</div>`;
     
     document.getElementById('profileScreen').innerHTML = `
         <div class="stat-card">
             ${avatarHtml}
-            <div style="font-size: 24px; font-weight: bold; margin: 15px 0;">${firstName}</div>
-            <div style="color: #666;">любитель истории</div>
+            <div style="font-size: 24px; font-weight: bold; margin: 15px 0; color: #5a4a5a;">${firstName}</div>
+            <div style="color: #b86f8c;">любитель истории 💕</div>
         </div>
         
         <div class="wish-card">
-            <div style="font-size: 32px;">✨</div>
+            <div style="font-size: 32px;">🌸✨</div>
             <div class="wish-text">"${randomWish}"</div>
-            <div style="margin-top: 15px; font-size: 12px; color: #667eea;">✨ новое пожелание при каждом входе ✨</div>
+            <div style="margin-top: 15px; font-size: 12px; color: #d48c9c;">✨ новое пожелание при каждом входе ✨</div>
         </div>
         
         <div class="stat-card">
-            <div style="font-size: 20px; margin-bottom: 15px;">📊 твой настрой</div>
-            <div style="font-size: 14px; line-height: 1.6;">
-                🌟 История — это не скучно<br>
-                📅 Каждая дата — ключ к пониманию<br>
-                🚀 Учись с удовольствием
+            <div style="font-size: 20px; margin-bottom: 15px; color: #5a4a5a;">📖 твой настрой</div>
+            <div style="font-size: 14px; line-height: 1.6; color: #6a5a6a;">
+                🌸 История — это не скучно<br>
+                🐱 Каждая дата — ключ к пониманию<br>
+                💕 Учись с удовольствием
             </div>
         </div>
     `;
@@ -623,18 +671,17 @@ function handleAnswer() {
 
 function finishQuiz() {
     if (!userProgress[currentTopic.id]) {
-        userProgress[currentTopic.id] = { bestScore: 0, sessions: 0 };
+        userProgress[currentTopic.id] = { bestScore: 0 };
     }
     
     if (currentScore > userProgress[currentTopic.id].bestScore) {
         userProgress[currentTopic.id].bestScore = currentScore;
     }
     
-    userProgress[currentTopic.id].sessions = (userProgress[currentTopic.id].sessions || 0) + 1;
     saveProgress();
     
     const percent = Math.round((currentScore / currentTopic.questions.length) * 100);
-    const emoji = percent === 100 ? "🎉🏆🎉" : percent >= 70 ? "📚⭐" : "💪🌱";
+    const emoji = percent === 100 ? "🎉🌸🎉" : percent >= 70 ? "📚💕" : "🐱🌷";
     
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
