@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="close-btn" onclick="window.Telegram.WebApp.close()">✕</div>
+        <div class="close-btn" onclick="tg.close()">✕</div>
         <div id="top-counter">1 / 10</div>
     </div>
 
@@ -44,7 +44,12 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
+        // Защита для браузера (когда не из Telegram)
+        const tg = window.Telegram?.WebApp || {
+            expand: () => {},
+            ready: () => {},
+            close: () => {}
+        };
 
         const questions = [
             { text: "Когда произошло Крещение Руси?", options: ["988 год", "1054 год", "862 год"], correct: 0 },
