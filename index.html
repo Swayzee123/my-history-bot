@@ -275,7 +275,7 @@
 <div id="mainScreen">
     <div class="header">
         <div class="date-icon" id="currentDate"></div>
-        <button class="close-btn" onclick="tg.close()">✕</button>
+        <button class="close-btn" onclick="window.Telegram?.WebApp?.close()">✕</button>
     </div>
 
     <div class="tabs">
@@ -323,39 +323,45 @@
 </div>
 
 <script>
-const tg = window.Telegram?.WebApp || { expand: () => {}, close: () => {}, initDataUnsafe: { user: { id: 123456, first_name: "Гость", photo_url: null } } };
-tg.expand();
-tg.ready();
+// Telegram WebApp
+const tg = window.Telegram?.WebApp;
+if (tg) {
+    tg.expand();
+    tg.ready();
+}
 
-// ========== SUPABASE ==========
+// Supabase
 const SUPABASE_URL = "https://roakqdkabmtsemavyseh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dYmhQWEHHhUhcqLbxr6M_w_rhrk_S7z";
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ========== ДАННЫЕ (уроки и даты) ==========
+// Данные уроков
 const subjects = {
     world: { name: "🌍 Всемирная история", lessons: [] },
     belarus: { name: "🇧🇾 История Беларуси", lessons: [] }
 };
 
-// Временные уроки (потом добавим твои 138+ дат)
+// Временные уроки (туда добавим твои даты)
 subjects.world.lessons.push({
     id: 1,
     title: "Урок 1. Древний мир",
     questions: [
         { text: "Крещение Руси?", options: ["988 г.", "862 г.", "1054 г."], correct: 0 },
-        { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 }
+        { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 },
+        { text: "Основание Санкт-Петербурга?", options: ["1703 г.", "1712 г.", "1721 г."], correct: 0 }
     ]
 });
+
 subjects.belarus.lessons.push({
     id: 2,
     title: "Урок 1. Полоцкое княжество",
     questions: [
-        { text: "Первая столица Беларуси?", options: ["Полоцк", "Минск", "Витебск"], correct: 0 }
+        { text: "Первое упоминание Полоцка в летописи?", options: ["862 г.", "988 г.", "1054 г."], correct: 0 },
+        { text: "Кто был первым князем Полоцка?", options: ["Рогволод", "Владимир", "Ярослав"], correct: 0 }
     ]
 });
 
-// ========== ИСТОРИЧЕСКИЕ ФАКТЫ ==========
+// Исторические факты
 const historyFacts = [
     "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
     "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
@@ -376,10 +382,13 @@ let selectedOption = null;
 let answered = false;
 let currentUser = null;
 
-// ========== ПОЛУЧЕНИЕ/СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ ==========
+// Получение пользователя
 async function initUser() {
-    const user = tg.initDataUnsafe?.user;
-    if (!user) return;
+    const user = tg?.initDataUnsafe?.user;
+    if (!user) {
+        currentUser = { id: 123456, name: "Гость", total_score: 0 };
+        return;
+    }
     
     currentUser = {
         id: user.id,
@@ -387,80 +396,91 @@ async function initUser() {
         avatar: user.photo_url || null
     };
     
-    // Проверяем, есть ли пользователь в БД
-    const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('telegram_id', String(user.id))
-        .single();
-    
-    if (!data) {
-        // Создаём нового пользователя
-        await supabase.from('users').insert({
-            telegram_id: String(user.id),
-            name: currentUser.name,
-            avatar: currentUser.avatar,
-            total_score: 0
-        });
-    } else {
-        currentUser.total_score = data.total_score || 0;
+    try {
+        const { data, error } = await supabaseClient
+            .from('users')
+            .select('*')
+            .eq('telegram_id', String(user.id))
+            .single();
+        
+        if (!data) {
+            await supabaseClient.from('users').insert({
+                telegram_id: String(user.id),
+                name: currentUser.name,
+                avatar: currentUser.avatar,
+                total_score: 0
+            });
+        } else {
+            currentUser.total_score = data.total_score || 0;
+        }
+    } catch(e) {
+        console.log("Supabase error:", e);
     }
 }
 
-// ========== СОХРАНЕНИЕ РЕЗУЛЬТАТА ==========
+// Сохранение результата
 async function saveResult(score, maxScore, lessonId) {
-    if (!currentUser) return;
+    if (!currentUser || currentUser.id === 123456) return;
     
-    await supabase.from('results').insert({
-        telegram_id: String(currentUser.id),
-        topic_id: lessonId,
-        score: score,
-        max_score: maxScore
-    });
-    
-    // Обновляем total_score пользователя
-    const { data } = await supabase
-        .from('results')
-        .select('score')
-        .eq('telegram_id', String(currentUser.id));
-    
-    let total = 0;
-    data?.forEach(r => total += r.score);
-    
-    await supabase
-        .from('users')
-        .update({ total_score: total })
-        .eq('telegram_id', String(currentUser.id));
-    
-    if (currentUser) currentUser.total_score = total;
-}
-
-// ========== ЗАГРУЗКА РЕЙТИНГА ==========
-async function loadRating() {
-    const { data, error } = await supabase
-        .from('users')
-        .select('name, avatar, total_score')
-        .order('total_score', { ascending: false })
-        .limit(20);
-    
-    const container = document.getElementById('ratingScreen');
-    if (!data || data.length === 0) {
-        container.innerHTML = '<div class="stat-card">⭐ Пока никого нет. Пройди викторину первым!</div>';
-        return;
+    try {
+        await supabaseClient.from('results').insert({
+            telegram_id: String(currentUser.id),
+            topic_id: lessonId,
+            score: score,
+            max_score: maxScore
+        });
+        
+        const { data } = await supabaseClient
+            .from('results')
+            .select('score')
+            .eq('telegram_id', String(currentUser.id));
+        
+        let total = 0;
+        if (data) data.forEach(r => total += r.score);
+        
+        await supabaseClient
+            .from('users')
+            .update({ total_score: total })
+            .eq('telegram_id', String(currentUser.id));
+        
+        currentUser.total_score = total;
+    } catch(e) {
+        console.log("Save error:", e);
     }
-    
-    container.innerHTML = data.map((user, i) => `
-        <div class="rank-item">
-            <div class="rank-avatar">${user.avatar ? `<img src="${user.avatar}" style="width:44px;height:44px;border-radius:44px;">` : (i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))) }</div>
-            <div style="flex:1"><strong>${user.name}</strong></div>
-            <div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div>
-        </div>
-    `).join('');
 }
 
-// ========== ОТОБРАЖЕНИЕ ГЛАВНОЙ ==========
+// Загрузка рейтинга
+async function loadRating() {
+    try {
+        const { data, error } = await supabaseClient
+            .from('users')
+            .select('name, avatar, total_score')
+            .order('total_score', { ascending: false })
+            .limit(20);
+        
+        const container = document.getElementById('ratingScreen');
+        if (!data || data.length === 0) {
+            container.innerHTML = '<div class="stat-card">⭐ Пока никого нет. Пройди викторину первым!</div>';
+            return;
+        }
+        
+        container.innerHTML = data.map((user, i) => `
+            <div class="rank-item">
+                <div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div>
+                <div style="flex:1"><strong>${user.name || "Аноним"}</strong></div>
+                <div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div>
+            </div>
+        `).join('');
+    } catch(e) {
+        document.getElementById('ratingScreen').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>';
+    }
+}
+
+// Главная страница
 function renderMain() {
-    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    const now = new Date();
+    const dateStr = `${now.getDate()} ${now.toLocaleString('ru', { month: 'long' })} ${now.getFullYear()}`;
+    document.getElementById('currentDate').innerText = dateStr;
     
     const container = document.getElementById('subjectsList');
     container.innerHTML = '';
@@ -485,13 +505,13 @@ function renderMain() {
     }
 }
 
-// ========== ПРОФИЛЬ ==========
+// Профиль
 function renderProfile() {
-    const user = tg.initDataUnsafe?.user;
+    const user = tg?.initDataUnsafe?.user;
     const randomFact = historyFacts[Math.floor(Math.random() * historyFacts.length)];
     
     const avatarHtml = user?.photo_url 
-        ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;">`
+        ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;object-fit:cover;">`
         : `<div style="width:80px;height:80px;border-radius:80px;background:linear-gradient(135deg,#d48c9c,#e89f7e);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📖</div>`;
     
     document.getElementById('profileScreen').innerHTML = `
@@ -507,7 +527,7 @@ function renderProfile() {
     `;
 }
 
-// ========== ВИКТОРИНА ==========
+// Викторина
 function startQuiz(lesson) {
     currentLesson = lesson;
     currentQuestionIndex = 0;
@@ -517,6 +537,7 @@ function startQuiz(lesson) {
     document.getElementById('quizTitle').innerText = lesson.title;
     document.getElementById('mainScreen').classList.add('hidden');
     document.getElementById('quizScreen').classList.remove('hidden');
+    document.getElementById('resultScreen').classList.add('hidden');
     renderQuestion();
 }
 
@@ -525,7 +546,8 @@ function renderQuestion() {
     if (!q) return finishQuiz();
     
     document.getElementById('questionText').innerHTML = q.text;
-    document.getElementById('progressFill').style.width = (currentQuestionIndex / currentLesson.questions.length) * 100 + "%";
+    const percent = (currentQuestionIndex / currentLesson.questions.length) * 100;
+    document.getElementById('progressFill').style.width = percent + "%";
     
     const box = document.getElementById('optionsBox');
     box.innerHTML = '';
@@ -579,7 +601,8 @@ async function finishQuiz() {
     
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
-    document.getElementById('resultScore').innerHTML = `${currentScore}/${currentLesson.questions.length}<div style="font-size:16px;">${Math.round(currentScore/currentLesson.questions.length*100)}%</div>`;
+    const percent = Math.round((currentScore / currentLesson.questions.length) * 100);
+    document.getElementById('resultScore').innerHTML = `${currentScore}/${currentLesson.questions.length}<div style="font-size:16px;">${percent}%</div>`;
 }
 
 function backToMain() {
@@ -600,7 +623,7 @@ function retryQuiz() {
     renderQuestion();
 }
 
-// ========== ТАБЫ ==========
+// Переключение табов
 function switchTab(tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
@@ -609,23 +632,31 @@ function switchTab(tab) {
     document.getElementById('ratingScreen').classList.add('hidden');
     document.getElementById('profileScreen').classList.add('hidden');
     
-    if (tab === 'subjects') document.getElementById('subjectsList').parentElement.classList.remove('hidden');
-    if (tab === 'rating') { document.getElementById('ratingScreen').classList.remove('hidden'); loadRating(); }
-    if (tab === 'profile') document.getElementById('profileScreen').classList.remove('hidden');
+    if (tab === 'subjects') {
+        document.getElementById('subjectsList').parentElement.classList.remove('hidden');
+        renderMain();
+    }
+    if (tab === 'rating') {
+        document.getElementById('ratingScreen').classList.remove('hidden');
+        loadRating();
+    }
+    if (tab === 'profile') {
+        document.getElementById('profileScreen').classList.remove('hidden');
+        renderProfile();
+    }
 }
 
 document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => switchTab(tab.dataset.tab));
 });
 
-// ========== ЗАПУСК ==========
-(async function() {
-    await initUser();
+// Запуск
+initUser().then(() => {
     renderMain();
     renderProfile();
     loadRating();
     switchTab('subjects');
-})();
+});
 </script>
 
 </body>
