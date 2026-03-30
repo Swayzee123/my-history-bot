@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
@@ -16,107 +17,57 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh;
             padding-bottom: 70px;
-            position: relative;
+            background: linear-gradient(135deg, #fff5f0 0%, #ffe8f0 100%);
         }
-
-        /* Фон с картинкой */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -2;
-            transition: background-image 0.5s ease;
-        }
-
-        /* Полупрозрачный оверлей для читаемости текста */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.75);
-            z-index: -1;
-        }
-
-        /* Фоны с картинками (эстетика: котики, цветочки, сердечки) */
-        .bg-pic-1::before { background-image: url('https://i.pinimg.com/564x/8e/7d/4b/8e7d4b4c4e8c4b4c4e8c4b4c4e8c4b4c.jpg'); }
-        .bg-pic-2::before { background-image: url('https://i.pinimg.com/564x/3e/5a/2c/3e5a2c3e5a2c3e5a2c3e5a2c3e5a2c3e.jpg'); }
-        .bg-pic-3::before { background-image: url('https://i.pinimg.com/564x/9f/2b/1d/9f2b1d9f2b1d9f2b1d9f2b1d9f2b1d9f.jpg'); }
-        .bg-pic-4::before { background-image: url('https://i.pinimg.com/564x/2c/8e/7d/2c8e7d2c8e7d2c8e7d2c8e7d2c8e7d2c.jpg'); }
-        .bg-pic-5::before { background-image: url('https://i.pinimg.com/564x/5a/2c/3e/5a2c3e5a2c3e5a2c3e5a2c3e5a2c3e5a.jpg'); }
-        .bg-pic-6::before { background-image: url('https://i.pinimg.com/564x/7d/4b/8e/7d4b8e7d4b8e7d4b8e7d4b8e7d4b8e7d.jpg'); }
-        .bg-pic-7::before { background-image: url('https://i.pinimg.com/564x/1d/9f/2b/1d9f2b1d9f2b1d9f2b1d9f2b1d9f2b1d.jpg'); }
-        .bg-pic-8::before { background-image: url('https://i.pinimg.com/564x/4c/8e/7d/4c8e7d4c8e7d4c8e7d4c8e7d4c8e7d4c.jpg'); }
-        .bg-pic-9::before { background-image: url('https://i.pinimg.com/564x/2c/3e/5a/2c3e5a2c3e5a2c3e5a2c3e5a2c3e5a2c.jpg'); }
-        .bg-pic-10::before { background-image: url('https://i.pinimg.com/564x/8e/7d/4b/8e7d4b8e7d4b8e7d4b8e7d4b8e7d4b8e.jpg'); }
-        .bg-pic-11::before { background-image: url('https://i.pinimg.com/564x/3e/5a/2c/3e5a2c3e5a2c3e5a2c3e5a2c3e5a2c3e.jpg'); }
-        .bg-pic-12::before { background-image: url('https://i.pinimg.com/564x/9f/2b/1d/9f2b1d9f2b1d9f2b1d9f2b1d9f2b1d9f.jpg'); }
 
         .header {
-            background: transparent;
-            padding: 16px 16px 8px 16px;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(20px);
+            padding: 16px 16px 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            z-index: 2;
+            border-bottom: 1px solid rgba(255,200,210,0.3);
         }
 
-        .calendar-icon {
-            font-size: 32px;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(8px);
+        .date-icon {
+            font-size: 16px;
+            font-weight: 500;
+            background: rgba(212,140,156,0.2);
             padding: 8px 16px;
-            border-radius: 40px;
+            border-radius: 30px;
+            color: #b86f8c;
         }
 
         .close-btn {
             font-size: 24px;
             cursor: pointer;
-            color: #4a3a4a;
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(8px);
+            color: #b86f8c;
+            background: rgba(255,255,255,0.5);
             border: none;
             width: 40px;
             height: 40px;
             border-radius: 40px;
             font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .close-btn:hover {
-            background: rgba(255,255,255,0.5);
         }
 
         .tabs {
             display: flex;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.85);
             backdrop-filter: blur(20px);
             padding: 8px 16px;
-            gap: 24px;
-            margin: 0 16px;
-            border-radius: 40px;
-            position: relative;
-            z-index: 2;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,200,210,0.3);
+            overflow-x: auto;
         }
 
         .tab {
             font-size: 15px;
-            color: #4a3a4a;
+            color: #6a5a6a;
             padding: 8px 0;
             cursor: pointer;
             border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-            font-weight: 500;
+            white-space: nowrap;
         }
 
         .tab.active {
@@ -126,62 +77,56 @@
 
         .content {
             padding: 16px;
-            position: relative;
-            z-index: 2;
         }
 
         .subject-card {
-            background: rgba(255,255,255,0.85);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-            border: 1px solid rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
-        .subject-name {
-            font-size: 24px;
+        .subject-title {
+            font-size: 22px;
             font-weight: 700;
             margin-bottom: 16px;
-            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
+            background: linear-gradient(135deg, #b86f8c, #e89f7e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .topic-item {
+        .lesson-item {
             padding: 14px;
             margin-top: 10px;
             background: rgba(255,248,250,0.9);
             border-radius: 20px;
             cursor: pointer;
-            border: 1px solid rgba(255,200,210,0.5);
-            transition: all 0.3s;
+            border: 1px solid rgba(212,140,156,0.3);
+            transition: all 0.2s;
         }
 
-        .topic-item:hover {
-            transform: translateX(5px);
-            background: rgba(255,240,245,0.95);
-            border-color: #d48c9c;
+        .lesson-item:active {
+            transform: scale(0.98);
         }
 
-        .topic-title {
+        .lesson-title {
             font-weight: 600;
-            margin-bottom: 6px;
             color: #5a4a5a;
         }
 
-        .topic-meta {
+        .lesson-meta {
             font-size: 12px;
             color: #b86f8c;
+            margin-top: 6px;
         }
 
         .quiz-card {
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 24px;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s;
         }
 
         .question-text {
@@ -189,7 +134,6 @@
             font-weight: 600;
             margin-bottom: 24px;
             color: #4a3a4a;
-            line-height: 1.4;
         }
 
         .option {
@@ -198,19 +142,13 @@
             border-radius: 20px;
             margin-bottom: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(255,255,255,0.9);
-        }
-
-        .option:hover {
-            border-color: #d48c9c;
-            transform: translateX(5px);
-            background: rgba(255,240,245,0.9);
+            transition: all 0.2s;
+            background: white;
         }
 
         .option.selected {
             border-color: #d48c9c;
-            background: rgba(212,140,156,0.15);
+            background: rgba(212,140,156,0.1);
         }
 
         .option.correct {
@@ -225,7 +163,6 @@
 
         .result-card {
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 32px 20px;
             text-align: center;
@@ -234,7 +171,7 @@
         .result-score {
             font-size: 56px;
             font-weight: 800;
-            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
+            background: linear-gradient(135deg, #b86f8c, #e89f7e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin: 20px 0;
@@ -248,14 +185,13 @@
             padding: 12px 16px;
             background: rgba(255,255,255,0.9);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.5);
-            z-index: 2;
+            border-top: 1px solid rgba(255,200,210,0.3);
         }
 
         .btn-main {
             width: 100%;
-            background: linear-gradient(135deg, #d48c9c 0%, #e89f7e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #d48c9c, #e89f7e);
+            color: white;
             border: none;
             padding: 14px;
             border-radius: 24px;
@@ -263,31 +199,27 @@
             font-weight: bold;
             cursor: pointer;
             opacity: 0.5;
-            transition: all 0.3s;
         }
 
         .btn-main.active {
             opacity: 1;
-            transform: scale(1.02);
         }
 
         .btn-secondary {
             width: 100%;
-            background: rgba(255,240,245,0.9);
+            background: rgba(212,140,156,0.2);
             color: #d48c9c;
             border: none;
             padding: 14px;
             border-radius: 24px;
-            font-size: 16px;
             font-weight: 500;
-            cursor: pointer;
             margin-top: 12px;
-            transition: all 0.3s;
+            cursor: pointer;
         }
 
         .progress-bar {
             height: 8px;
-            background: rgba(212,140,156,0.3);
+            background: rgba(212,140,156,0.2);
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 20px;
@@ -297,88 +229,63 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #d48c9c, #e89f7e);
-            transition: width 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 20px auto;
-            background: linear-gradient(135deg, #d48c9c 0%, #e89f7e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .wish-card {
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 28px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .wish-text {
-            font-size: 18px;
-            line-height: 1.5;
-            color: #4a3a4a;
-            margin: 15px 0;
-            font-style: italic;
         }
 
         .stat-card {
             background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
             border-radius: 28px;
             padding: 20px;
             margin-bottom: 16px;
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 48px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #b86f8c 0%, #e89f7e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            margin-bottom: 8px;
         }
 
-        .emoji-big {
-            font-size: 64px;
-            margin: 20px 0;
+        .rank-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 44px;
+            background: #d48c9c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body id="appBody">
+<body>
 
 <div id="mainScreen">
     <div class="header">
-        <div class="calendar-icon">📅✨</div>
+        <div class="date-icon" id="currentDate"></div>
         <button class="close-btn" onclick="tg.close()">✕</button>
     </div>
 
     <div class="tabs">
-        <div class="tab active" data-tab="subjects">история</div>
-        <div class="tab" data-tab="statistics">статистика</div>
-        <div class="tab" data-tab="profile">профиль</div>
+        <div class="tab active" data-tab="subjects">📚 История</div>
+        <div class="tab" data-tab="rating">🏆 Рейтинг</div>
+        <div class="tab" data-tab="profile">👤 Профиль</div>
     </div>
 
     <div class="content" id="subjectsList"></div>
-    <div class="content hidden" id="statisticsScreen"></div>
+    <div class="content hidden" id="ratingScreen"></div>
     <div class="content hidden" id="profileScreen"></div>
 </div>
 
@@ -386,19 +293,17 @@
     <div class="header">
         <button class="close-btn" onclick="backToMain()">←</button>
         <div id="quizTitle"></div>
-        <div style="width: 24px;"></div>
+        <div style="width: 40px;"></div>
     </div>
     <div class="content">
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
-        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         <div class="quiz-card">
-            <div class="question-text" id="q-text"></div>
-            <div id="options-box"></div>
+            <div class="question-text" id="questionText"></div>
+            <div id="optionsBox"></div>
         </div>
     </div>
     <div class="footer">
-        <button class="btn-main" id="action-btn" disabled onclick="handleAnswer()">Ответить</button>
+        <button class="btn-main" id="actionBtn" disabled onclick="handleAnswer()">Ответить</button>
     </div>
 </div>
 
@@ -406,11 +311,10 @@
     <div class="header">
         <button class="close-btn" onclick="backToMain()">←</button>
         <div>Результат</div>
-        <div style="width: 24px;"></div>
+        <div style="width: 40px;"></div>
     </div>
     <div class="content">
         <div class="result-card">
-            <div class="emoji-big" id="resultEmoji"></div>
             <div class="result-score" id="resultScore"></div>
             <button class="btn-main" onclick="backToMain()">На главную</button>
             <button class="btn-secondary" onclick="retryQuiz()">Пройти заново</button>
@@ -419,249 +323,216 @@
 </div>
 
 <script>
-const tg = window.Telegram?.WebApp || {
-    expand: () => {},
-    close: () => {},
-    initDataUnsafe: { user: { first_name: "Гость", photo_url: null } }
-};
+const tg = window.Telegram?.WebApp || { expand: () => {}, close: () => {}, initDataUnsafe: { user: { id: 123456, first_name: "Гость", photo_url: null } } };
+tg.expand();
+tg.ready();
 
-// Массив фонов (ссылки на эстетичные картинки из Pinterest)
-const bgImages = [
-    'https://i.pinimg.com/564x/4b/3c/2a/4b3c2a8f5e6d7a8b9c0d1e2f3a4b5c6d.jpg',
-    'https://i.pinimg.com/564x/5c/4d/3b/5c4d3b9f8e7d6c5a4b3c2d1e0f9a8b7c.jpg',
-    'https://i.pinimg.com/564x/6d/5e/4c/6d5e4c0f1e2d3c4b5a6f7e8d9c0b1a2.jpg',
-    'https://i.pinimg.com/564x/7e/6f/5d/7e6f5d1f2e3d4c5b6a7f8e9d0c1b2a3.jpg',
-    'https://i.pinimg.com/564x/8f/7a/6e/8f7a6e2f3e4d5c6b7a8f9e0d1c2b3a4.jpg',
-    'https://i.pinimg.com/564x/9a/8b/7f/9a8b7f3f4e5d6c7b8a9f0e1d2c3b4a5.jpg',
-    'https://i.pinimg.com/564x/ab/9c/8a/ab9c8a4f5e6d7c8b9a0f1e2d3c4b5a6.jpg',
-    'https://i.pinimg.com/564x/bc/ad/9b/bcad9b5f6e7d8c9b0a1f2e3d4c5b6a7.jpg',
-    'https://i.pinimg.com/564x/cd/be/ac/cdbeac6f7e8d9c0b1a2f3e4d5c6b7a8.jpg',
-    'https://i.pinimg.com/564x/de/cf/bd/decfbd7f8e9d0c1b2a3f4e5d6c7b8a9.jpg'
-];
+// ========== SUPABASE ==========
+const SUPABASE_URL = "https://roakqdkabmtsemavyseh.supabase.co";
+const SUPABASE_KEY = "sb_publishable_dYmhQWEHHhUhcqLbxr6M_w_rhrk_S7z";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-function setRandomBackground() {
-    const randomIndex = Math.floor(Math.random() * bgImages.length);
-    const bgUrl = bgImages[randomIndex];
-    document.body.style.backgroundImage = `url('${bgUrl}')`;
-    document.body.style.backgroundSize = 'cover';
-    document.body.style.backgroundPosition = 'center';
-    document.body.style.backgroundAttachment = 'fixed';
-}
-
+// ========== ДАННЫЕ (уроки и даты) ==========
 const subjects = {
-    история: {
-        topics: [
-            {
-                id: 1,
-                title: "Важные даты",
-                questions: [
-                    { text: "Крещение Руси?", options: ["988 г.", "862 г.", "1054 г."], correct: 0 },
-                    { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 },
-                    { text: "Основание СПб?", options: ["1703 г.", "1712 г.", "1721 г."], correct: 0 },
-                    { text: "Отечественная война?", options: ["1812 г.", "1815 г.", "1805 г."], correct: 0 },
-                    { text: "Отмена крепостного права?", options: ["1861 г.", "1855 г.", "1865 г."], correct: 0 },
-                    { text: "Начало ВОВ?", options: ["1941 г.", "1939 г.", "1942 г."], correct: 0 },
-                    { text: "Первый полет в космос?", options: ["1961 г.", "1957 г.", "1965 г."], correct: 0 }
-                ]
-            }
-        ]
-    }
+    world: { name: "🌍 Всемирная история", lessons: [] },
+    belarus: { name: "🇧🇾 История Беларуси", lessons: [] }
 };
 
-const wishes = [
-    "🌸 Пусть каждый день приносит новые знания!",
-    "🐱 История ждет своих героев! Ты справишься!",
-    "💖 Учи даты — открывай мир!",
-    "🌷 Ты сможешь все! Верь в себя!",
-    "⭐ Сегодня твой день для великих открытий!",
-    "🦋 Знание истории делает нас сильнее!",
-    "🎀 Учись с удовольствием!",
-    "🌼 Ты станешь настоящим историком!",
-    "💕 Каждая дата — это шаг к мудрости!",
-    "🐾 Вперед к новым победам!",
-    "📖 История — твой проводник в будущее!",
-    "✨ Ты уникален! Продолжай в том же духе!",
-    "🌸 Даты запоминаются легко, когда есть интерес!",
-    "💗 Сегодня отличный день для учебы!",
-    "🐈 Учи историю — меняй будущее!"
+// Временные уроки (потом добавим твои 138+ дат)
+subjects.world.lessons.push({
+    id: 1,
+    title: "Урок 1. Древний мир",
+    questions: [
+        { text: "Крещение Руси?", options: ["988 г.", "862 г.", "1054 г."], correct: 0 },
+        { text: "Куликовская битва?", options: ["1380 г.", "1240 г.", "1480 г."], correct: 0 }
+    ]
+});
+subjects.belarus.lessons.push({
+    id: 2,
+    title: "Урок 1. Полоцкое княжество",
+    questions: [
+        { text: "Первая столица Беларуси?", options: ["Полоцк", "Минск", "Витебск"], correct: 0 }
+    ]
+});
+
+// ========== ИСТОРИЧЕСКИЕ ФАКТЫ ==========
+const historyFacts = [
+    "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
+    "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
+    "🌍 Первое кругосветное путешествие совершил Магеллан в 1519 году.",
+    "⚔️ Куликовская битва произошла в 1380 году.",
+    "📖 Первая печатная книга на Руси — «Апостол», 1564 год.",
+    "🏰 Полоцк впервые упоминается в 862 году в летописях.",
+    "🎨 Леонардо да Винчи написал «Мону Лизу» в 1503 году.",
+    "🚀 Первый полёт человека в космос — 12 апреля 1961 года.",
+    "📚 Библиотека Ивана Грозного до сих пор не найдена.",
+    "🏛️ Древний Рим был основан в 753 году до н.э."
 ];
 
-let currentTopic = null;
+let currentLesson = null;
 let currentQuestionIndex = 0;
 let currentScore = 0;
 let selectedOption = null;
 let answered = false;
-let userProgress = {};
+let currentUser = null;
 
-function getRandomWish() {
-    return wishes[Math.floor(Math.random() * wishes.length)];
-}
-
-function init() {
-    setRandomBackground();
-    tg.expand();
-    tg.ready();
-    loadProgress();
-    renderSubjects();
+// ========== ПОЛУЧЕНИЕ/СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ ==========
+async function initUser() {
+    const user = tg.initDataUnsafe?.user;
+    if (!user) return;
     
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            
-            document.getElementById('subjectsList').classList.add('hidden');
-            document.getElementById('statisticsScreen').classList.add('hidden');
-            document.getElementById('profileScreen').classList.add('hidden');
-            
-            if (tab.dataset.tab === 'subjects') {
-                document.getElementById('subjectsList').classList.remove('hidden');
-                renderSubjects();
-            } else if (tab.dataset.tab === 'statistics') {
-                document.getElementById('statisticsScreen').classList.remove('hidden');
-                renderStatistics();
-            } else if (tab.dataset.tab === 'profile') {
-                document.getElementById('profileScreen').classList.remove('hidden');
-                renderProfile();
-            }
+    currentUser = {
+        id: user.id,
+        name: user.first_name || "Гость",
+        avatar: user.photo_url || null
+    };
+    
+    // Проверяем, есть ли пользователь в БД
+    const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('telegram_id', String(user.id))
+        .single();
+    
+    if (!data) {
+        // Создаём нового пользователя
+        await supabase.from('users').insert({
+            telegram_id: String(user.id),
+            name: currentUser.name,
+            avatar: currentUser.avatar,
+            total_score: 0
         });
-    });
+    } else {
+        currentUser.total_score = data.total_score || 0;
+    }
 }
 
-function renderSubjects() {
+// ========== СОХРАНЕНИЕ РЕЗУЛЬТАТА ==========
+async function saveResult(score, maxScore, lessonId) {
+    if (!currentUser) return;
+    
+    await supabase.from('results').insert({
+        telegram_id: String(currentUser.id),
+        topic_id: lessonId,
+        score: score,
+        max_score: maxScore
+    });
+    
+    // Обновляем total_score пользователя
+    const { data } = await supabase
+        .from('results')
+        .select('score')
+        .eq('telegram_id', String(currentUser.id));
+    
+    let total = 0;
+    data?.forEach(r => total += r.score);
+    
+    await supabase
+        .from('users')
+        .update({ total_score: total })
+        .eq('telegram_id', String(currentUser.id));
+    
+    if (currentUser) currentUser.total_score = total;
+}
+
+// ========== ЗАГРУЗКА РЕЙТИНГА ==========
+async function loadRating() {
+    const { data, error } = await supabase
+        .from('users')
+        .select('name, avatar, total_score')
+        .order('total_score', { ascending: false })
+        .limit(20);
+    
+    const container = document.getElementById('ratingScreen');
+    if (!data || data.length === 0) {
+        container.innerHTML = '<div class="stat-card">⭐ Пока никого нет. Пройди викторину первым!</div>';
+        return;
+    }
+    
+    container.innerHTML = data.map((user, i) => `
+        <div class="rank-item">
+            <div class="rank-avatar">${user.avatar ? `<img src="${user.avatar}" style="width:44px;height:44px;border-radius:44px;">` : (i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))) }</div>
+            <div style="flex:1"><strong>${user.name}</strong></div>
+            <div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div>
+        </div>
+    `).join('');
+}
+
+// ========== ОТОБРАЖЕНИЕ ГЛАВНОЙ ==========
+function renderMain() {
+    document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    
     const container = document.getElementById('subjectsList');
     container.innerHTML = '';
     
-    for (const [name, data] of Object.entries(subjects)) {
+    for (const key in subjects) {
+        const subject = subjects[key];
         const card = document.createElement('div');
         card.className = 'subject-card';
-        card.innerHTML = `<div class="subject-name">📜 ${name.toUpperCase()}</div>`;
+        card.innerHTML = `<div class="subject-title">${subject.name}</div>`;
         
-        data.topics.forEach(topic => {
-            const progress = userProgress[topic.id];
-            const div = document.createElement('div');
-            div.className = 'topic-item';
-            div.onclick = () => startQuiz(topic);
-            div.innerHTML = `
-                <div class="topic-title">${topic.title}</div>
-                <div class="topic-meta">${progress ? `✅ ${progress.bestScore}/${topic.questions.length} дат выучено` : `📅 ${topic.questions.length} важных дат`}</div>
+        subject.lessons.forEach(lesson => {
+            const lessonDiv = document.createElement('div');
+            lessonDiv.className = 'lesson-item';
+            lessonDiv.innerHTML = `
+                <div class="lesson-title">${lesson.title}</div>
+                <div class="lesson-meta">📅 ${lesson.questions.length} дат</div>
             `;
-            card.appendChild(div);
+            lessonDiv.onclick = () => startQuiz(lesson);
+            card.appendChild(lessonDiv);
         });
         container.appendChild(card);
     }
 }
 
-function renderStatistics() {
-    let totalQuestions = 0;
-    let totalCorrect = 0;
-    
-    for (const [name, data] of Object.entries(subjects)) {
-        data.topics.forEach(topic => {
-            const progress = userProgress[topic.id];
-            if (progress) {
-                totalQuestions += topic.questions.length;
-                totalCorrect += progress.bestScore;
-            }
-        });
-    }
-    
-    const percent = totalQuestions ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
-    
-    let frequencyText = "";
-    if (percent >= 80) frequencyText = "🌸 Ты настоящий знаток истории! 🌸";
-    else if (percent >= 50) frequencyText = "💕 Отлично! Продолжай в том же духе! 💕";
-    else if (percent > 0) frequencyText = "🐱 Неплохо! Учи даты чаще! 🐱";
-    else frequencyText = "🌷 Начинающий исследователь! Каждый день — новый шаг! 🌷";
-    
-    const emoji = percent >= 80 ? "🏆🌸" : percent >= 50 ? "📚💖" : "🌱🐱";
-    
-    document.getElementById('statisticsScreen').innerHTML = `
-        <div class="stat-card">
-            <div class="emoji-big">${emoji}</div>
-            <div class="stat-number">${percent}%</div>
-            <div style="margin: 10px 0 20px; color: #6a5a6a;">правильных ответов</div>
-            <div style="background: rgba(212,140,156,0.3); border-radius: 10px; height: 8px; margin: 20px 0;">
-                <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #d48c9c, #e89f7e); border-radius: 10px;"></div>
-            </div>
-        </div>
-        
-        <div class="stat-card">
-            <div class="emoji-big">⏰💗</div>
-            <div class="stat-number">${Math.floor(Math.random() * 20) + 5}</div>
-            <div style="margin: 10px 0; color: #6a5a6a;">раз ты учил даты</div>
-            <div style="font-size: 14px; color: #b86f8c; margin-top: 10px;">${frequencyText}</div>
-        </div>
-        
-        <div class="stat-card">
-            <div class="emoji-big">🎀✨</div>
-            <div style="font-size: 24px; font-weight: bold; margin: 10px 0;">${totalCorrect} / ${totalQuestions}</div>
-            <div style="color: #6a5a6a;">дат запомнено</div>
-            <div style="margin-top: 15px; font-size: 14px;">${percent >= 80 ? "🎉 Ты умничка! 🎉" : "💪 Еще немного — и ты эксперт!"}</div>
-        </div>
-    `;
-}
-
+// ========== ПРОФИЛЬ ==========
 function renderProfile() {
     const user = tg.initDataUnsafe?.user;
-    const firstName = user?.first_name || "Гость";
-    const photoUrl = user?.photo_url;
-    const randomWish = getRandomWish();
+    const randomFact = historyFacts[Math.floor(Math.random() * historyFacts.length)];
     
-    const avatarHtml = photoUrl 
-        ? `<img src="${photoUrl}" style="width: 100px; height: 100px; border-radius: 50%; margin: 20px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); object-fit: cover;">`
-        : `<div class="avatar">📖🐱</div>`;
+    const avatarHtml = user?.photo_url 
+        ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;">`
+        : `<div style="width:80px;height:80px;border-radius:80px;background:linear-gradient(135deg,#d48c9c,#e89f7e);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📖</div>`;
     
     document.getElementById('profileScreen').innerHTML = `
         <div class="stat-card">
             ${avatarHtml}
-            <div style="font-size: 24px; font-weight: bold; margin: 15px 0; color: #5a4a5a;">${firstName}</div>
-            <div style="color: #b86f8c;">любитель истории 💕</div>
+            <div style="font-size:24px;font-weight:bold;margin-bottom:8px;">${user?.first_name || "Гость"}</div>
+            <div style="color:#b86f8c;">🏆 ${currentUser?.total_score || 0} баллов</div>
         </div>
-        
-        <div class="wish-card">
-            <div style="font-size: 32px;">🌸✨</div>
-            <div class="wish-text">"${randomWish}"</div>
-            <div style="margin-top: 15px; font-size: 12px; color: #d48c9c;">✨ новое пожелание при каждом входе ✨</div>
-        </div>
-        
         <div class="stat-card">
-            <div style="font-size: 20px; margin-bottom: 15px; color: #5a4a5a;">📖 твой настрой</div>
-            <div style="font-size: 14px; line-height: 1.6; color: #6a5a6a;">
-                🌸 История — это не скучно<br>
-                🐱 Каждая дата — ключ к пониманию<br>
-                💕 Учись с удовольствием
-            </div>
+            <div style="font-size:18px;margin-bottom:12px;">📖 Исторический факт дня</div>
+            <div style="font-size:14px;line-height:1.5;">${randomFact}</div>
         </div>
     `;
 }
 
-function startQuiz(topic) {
-    currentTopic = topic;
+// ========== ВИКТОРИНА ==========
+function startQuiz(lesson) {
+    currentLesson = lesson;
     currentQuestionIndex = 0;
     currentScore = 0;
     answered = false;
     
-    document.getElementById('quizTitle').innerText = topic.title;
+    document.getElementById('quizTitle').innerText = lesson.title;
     document.getElementById('mainScreen').classList.add('hidden');
     document.getElementById('quizScreen').classList.remove('hidden');
-    document.getElementById('resultScreen').classList.add('hidden');
-    
     renderQuestion();
 }
 
 function renderQuestion() {
-    const q = currentTopic.questions[currentQuestionIndex];
+    const q = currentLesson.questions[currentQuestionIndex];
     if (!q) return finishQuiz();
     
-    document.getElementById('q-text').innerHTML = `📅 ${q.text}`;
-    document.getElementById('progress-fill').style.width = (currentQuestionIndex / currentTopic.questions.length) * 100 + "%";
+    document.getElementById('questionText').innerHTML = q.text;
+    document.getElementById('progressFill').style.width = (currentQuestionIndex / currentLesson.questions.length) * 100 + "%";
     
-    const box = document.getElementById('options-box');
+    const box = document.getElementById('optionsBox');
     box.innerHTML = '';
     selectedOption = null;
     answered = false;
     
-    const btn = document.getElementById('action-btn');
+    const btn = document.getElementById('actionBtn');
     btn.disabled = true;
     btn.classList.remove('active');
     btn.innerText = "Ответить";
@@ -685,52 +556,39 @@ function renderQuestion() {
 function handleAnswer() {
     if (selectedOption === null) return;
     
-    const q = currentTopic.questions[currentQuestionIndex];
-    const btn = document.getElementById('action-btn');
+    const q = currentLesson.questions[currentQuestionIndex];
+    const btn = document.getElementById('actionBtn');
     
     if (!answered) {
         answered = true;
-        
         document.querySelectorAll('.option').forEach((el, i) => {
             if (i === q.correct) el.classList.add('correct');
             else if (i === selectedOption) el.classList.add('wrong');
         });
-        
         if (selectedOption === q.correct) currentScore++;
-        
         btn.innerText = "Дальше →";
     } else {
         currentQuestionIndex++;
-        if (currentQuestionIndex < currentTopic.questions.length) renderQuestion();
+        if (currentQuestionIndex < currentLesson.questions.length) renderQuestion();
         else finishQuiz();
     }
 }
 
-function finishQuiz() {
-    if (!userProgress[currentTopic.id]) {
-        userProgress[currentTopic.id] = { bestScore: 0 };
-    }
-    
-    if (currentScore > userProgress[currentTopic.id].bestScore) {
-        userProgress[currentTopic.id].bestScore = currentScore;
-    }
-    
-    saveProgress();
-    
-    const percent = Math.round((currentScore / currentTopic.questions.length) * 100);
-    const emoji = percent === 100 ? "🎉🌸🎉" : percent >= 70 ? "📚💕" : "🐱🌷";
+async function finishQuiz() {
+    await saveResult(currentScore, currentLesson.questions.length, currentLesson.id);
     
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.remove('hidden');
-    document.getElementById('resultEmoji').innerHTML = emoji;
-    document.getElementById('resultScore').innerHTML = `${currentScore}/${currentTopic.questions.length}<div style="font-size: 16px; margin-top: 10px;">${percent}% дат запомнено</div>`;
+    document.getElementById('resultScore').innerHTML = `${currentScore}/${currentLesson.questions.length}<div style="font-size:16px;">${Math.round(currentScore/currentLesson.questions.length*100)}%</div>`;
 }
 
 function backToMain() {
     document.getElementById('mainScreen').classList.remove('hidden');
     document.getElementById('quizScreen').classList.add('hidden');
     document.getElementById('resultScreen').classList.add('hidden');
-    renderSubjects();
+    renderMain();
+    renderProfile();
+    loadRating();
 }
 
 function retryQuiz() {
@@ -742,16 +600,32 @@ function retryQuiz() {
     renderQuestion();
 }
 
-function saveProgress() {
-    localStorage.setItem('historyProgress', JSON.stringify(userProgress));
+// ========== ТАБЫ ==========
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+    
+    document.getElementById('subjectsList').parentElement.classList.add('hidden');
+    document.getElementById('ratingScreen').classList.add('hidden');
+    document.getElementById('profileScreen').classList.add('hidden');
+    
+    if (tab === 'subjects') document.getElementById('subjectsList').parentElement.classList.remove('hidden');
+    if (tab === 'rating') { document.getElementById('ratingScreen').classList.remove('hidden'); loadRating(); }
+    if (tab === 'profile') document.getElementById('profileScreen').classList.remove('hidden');
 }
 
-function loadProgress() {
-    const saved = localStorage.getItem('historyProgress');
-    if (saved) userProgress = JSON.parse(saved);
-}
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+});
 
-window.addEventListener('DOMContentLoaded', init);
+// ========== ЗАПУСК ==========
+(async function() {
+    await initUser();
+    renderMain();
+    renderProfile();
+    loadRating();
+    switchTab('subjects');
+})();
 </script>
 
 </body>
