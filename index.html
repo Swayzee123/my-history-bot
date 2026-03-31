@@ -418,9 +418,10 @@ async function loadRating() {
         const { data } = await supabaseClient.from('users').select('name, total_score').order('total_score', { ascending: false }).limit(20);
         const container = document.getElementById('ratingList');
         if (!data || data.length === 0) { container.innerHTML = '<div class="stat-card">⭐ Пока никого нет</div>'; return; }
-        container.innerHTML = data.map((user, i) => `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${user.name || "Аноним"}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`).join('');
-    } catch(e) { document.getElementById('ratingList').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>'; }
-}
+        container.innerHTML = data.map((user, i) => {
+    let cleanName = (user.name || "Аноним").replace(/[^\p{L}\p{N}\s]/gu, '').substring(0, 20);
+    return `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${cleanName}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`;
+}).join('');
 
 function renderStats() {
     const totalQuestions = getTotalQuestions();
