@@ -1,3 +1,6 @@
+Вот **финальный код без ошибок**. Скопируй его целиком и замени `index.html` на GitHub.
+
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -224,7 +227,7 @@ function shuffleOptions(question) {
     return { ...question, options: options, correct: newCorrectIndex };
 }
 
-// ==================== ВСЕМИРНАЯ ИСТОРИЯ (с исправленными ответами) ====================
+// ==================== ВСЕМИРНАЯ ИСТОРИЯ ====================
 const worldLessonsRaw = [
     {
         id: 1,
@@ -342,7 +345,7 @@ const worldLessonsRaw = [
     }
 ];
 
-// ==================== ИСТОРИЯ БЕЛАРУСИ (с исправленными ответами) ====================
+// ==================== ИСТОРИЯ БЕЛАРУСИ ====================
 const belarusLessonsRaw = [
     {
         id: 10,
@@ -455,7 +458,7 @@ const belarusLessonsRaw = [
     }
 ];
 
-// Применяем перемешивание ответов ко всем вопросам
+// Применяем перемешивание ответов
 const worldLessons = worldLessonsRaw.map(lesson => ({
     ...lesson,
     questions: lesson.questions.map(q => shuffleOptions(q))
@@ -471,7 +474,6 @@ const subjects = {
     belarus: { name: "🇧🇾 История Беларуси", lessons: belarusLessons }
 };
 
-// Научные факты (расширенные)
 const scienceFacts = [
     "🔬 Первый искусственный спутник Земли весил всего 83,6 кг.",
     "🧬 ДНК человека на 99,9% одинакова у всех людей.",
@@ -714,3 +716,4 @@ initUser().then(() => {
 
 </body>
 </html>
+```
