@@ -6,7 +6,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding-bottom:70px;background:linear-gradient(135deg,#fff5f0,#ffe8f0)}.header{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,200,210,0.3)}.date-icon{font-size:16px;font-weight:500;background:rgba(212,140,156,0.2);padding:8px 16px;border-radius:30px;color:#b86f8c}.close-btn{font-size:24px;cursor:pointer;color:#b86f8c;background:rgba(255,255,255,0.5);border:none;width:40px;height:40px;border-radius:40px}.tabs{display:flex;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);padding:8px 16px;gap:16px;border-bottom:1px solid rgba(255,200,210,0.3);overflow-x:auto}.tab{font-size:14px;color:#6a5a6a;padding:8px 0;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#d48c9c;border-bottom-color:#d48c9c}.content{padding:16px}.screen{display:block}.screen.hidden{display:none}.subject-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);border-radius:28px;padding:20px;margin-bottom:20px}.subject-title{font-size:22px;font-weight:700;margin-bottom:16px;background:linear-gradient(135deg,#b86f8c,#e89f7e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.lesson-item{display:flex;justify-content:space-between;align-items:center;padding:14px;margin-top:10px;background:rgba(255,248,250,0.9);border-radius:20px;cursor:pointer;border:1px solid rgba(212,140,156,0.3)}.lesson-title{font-weight:600;color:#5a4a5a}.lesson-meta{font-size:12px;color:#b86f8c}.lesson-status{font-size:18px;margin-left:8px}.quiz-card{background:rgba(255,255,255,0.95);border-radius:28px;padding:24px}.question-text{font-size:20px;font-weight:600;margin-bottom:24px;color:#4a3a4a}.option{padding:14px;border:2px solid rgba(212,140,156,0.3);border-radius:20px;margin-bottom:10px;cursor:pointer;background:white}.option.selected{border-color:#d48c9c;background:rgba(212,140,156,0.1)}.option.correct{border-color:#9bcd9b;background:rgba(155,205,155,0.2)}.option.wrong{border-color:#e89f7e;background:rgba(232,159,126,0.15)}.result-card{background:rgba(255,255,255,0.95);border-radius:28px;padding:32px 20px;text-align:center}.result-score{font-size:56px;font-weight:800;background:linear-gradient(135deg,#b86f8c,#e89f7e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:20px 0}.footer{position:fixed;bottom:0;left:0;width:100%;padding:12px 16px;background:rgba(255,255,255,0.9);backdrop-filter:blur(20px);border-top:1px solid rgba(255,200,210,0.3)}.btn-main{width:100%;background:linear-gradient(135deg,#d48c9c,#e89f7e);color:white;border:none;padding:14px;border-radius:24px;font-size:16px;font-weight:bold;cursor:pointer;opacity:0.5}.btn-main.active{opacity:1}.btn-secondary{width:100%;background:rgba(212,140,156,0.2);color:#d48c9c;border:none;padding:14px;border-radius:24px;font-weight:500;margin-top:12px;cursor:pointer}.progress-bar{height:8px;background:rgba(212,140,156,0.2);border-radius:10px;overflow:hidden;margin-bottom:20px}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#d48c9c,#e89f7e)}.stat-card{background:rgba(255,255,255,0.9);border-radius:28px;padding:20px;margin-bottom:16px;text-align:center}.rank-item{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.9);border-radius:20px;margin-bottom:8px}.rank-avatar{width:44px;height:44px;border-radius:44px;background:#d48c9c;display:flex;align-items:center;justify-content:center;font-size:20px}
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh;padding-bottom:100px;background:linear-gradient(135deg,#fff5f0,#ffe8f0)}.header{background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,200,210,0.3)}.date-icon{font-size:16px;font-weight:500;background:rgba(212,140,156,0.2);padding:8px 16px;border-radius:30px;color:#b86f8c}.close-btn{font-size:24px;cursor:pointer;color:#b86f8c;background:rgba(255,255,255,0.5);border:none;width:40px;height:40px;border-radius:40px}.tabs{display:flex;background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);padding:8px 16px;gap:16px;border-bottom:1px solid rgba(255,200,210,0.3);overflow-x:auto}.tab{font-size:14px;color:#6a5a6a;padding:8px 0;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}.tab.active{color:#d48c9c;border-bottom-color:#d48c9c}.content{padding:16px}.screen{display:block}.screen.hidden{display:none}.subject-card{background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);border-radius:28px;padding:20px;margin-bottom:20px}.subject-title{font-size:22px;font-weight:700;margin-bottom:16px;background:linear-gradient(135deg,#b86f8c,#e89f7e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.lesson-item{display:flex;justify-content:space-between;align-items:center;padding:14px;margin-top:10px;background:rgba(255,248,250,0.9);border-radius:20px;cursor:pointer;border:1px solid rgba(212,140,156,0.3)}.lesson-title{font-weight:600;color:#5a4a5a}.lesson-meta{font-size:12px;color:#b86f8c}.lesson-status{font-size:18px;margin-left:8px}.quiz-card{background:rgba(255,255,255,0.95);border-radius:28px;padding:24px}.question-text{font-size:20px;font-weight:600;margin-bottom:24px;color:#4a3a4a}.option{padding:14px;border:2px solid rgba(212,140,156,0.3);border-radius:20px;margin-bottom:10px;cursor:pointer;background:white}.option.selected{border-color:#d48c9c;background:rgba(212,140,156,0.1)}.option.correct{border-color:#9bcd9b;background:rgba(155,205,155,0.2)}.option.wrong{border-color:#e89f7e;background:rgba(232,159,126,0.15)}.result-card{background:rgba(255,255,255,0.95);border-radius:28px;padding:32px 20px;text-align:center}.result-score{font-size:56px;font-weight:800;background:linear-gradient(135deg,#b86f8c,#e89f7e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:20px 0}.footer{position:fixed;bottom:0;left:0;width:100%;padding:12px 16px;background:rgba(255,255,255,0.9);backdrop-filter:blur(20px);border-top:1px solid rgba(255,200,210,0.3);display:flex;justify-content:center;gap:32px;z-index:10}.social-icon{font-size:28px;text-decoration:none;color:#b86f8c;transition:transform 0.2s}.social-icon:hover{transform:scale(1.1)}.btn-main{width:100%;background:linear-gradient(135deg,#d48c9c,#e89f7e);color:white;border:none;padding:14px;border-radius:24px;font-size:16px;font-weight:bold;cursor:pointer;opacity:0.5}.btn-main.active{opacity:1}.btn-secondary{width:100%;background:rgba(212,140,156,0.2);color:#d48c9c;border:none;padding:14px;border-radius:24px;font-weight:500;margin-top:12px;cursor:pointer}.progress-bar{height:8px;background:rgba(212,140,156,0.2);border-radius:10px;overflow:hidden;margin-bottom:20px}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#d48c9c,#e89f7e)}.stat-card{background:rgba(255,255,255,0.9);border-radius:28px;padding:20px;margin-bottom:16px;text-align:center}.rank-item{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.9);border-radius:20px;margin-bottom:8px}.rank-avatar{width:44px;height:44px;border-radius:44px;background:#d48c9c;display:flex;align-items:center;justify-content:center;font-size:24px}
     </style>
 </head>
 <body>
@@ -14,6 +14,11 @@
     <div class="header"><div class="date-icon" id="currentDate"></div><button class="close-btn" onclick="window.Telegram?.WebApp?.close()">✕</button></div>
     <div class="tabs"><div class="tab active" data-tab="subjects">📚 История</div><div class="tab" data-tab="stats">📊 Статистика</div><div class="tab" data-tab="rating">🏆 Рейтинг</div><div class="tab" data-tab="profile">👤 Профиль</div></div>
     <div class="content"><div id="subjectsList"></div><div id="statsContent" style="display:none;"></div><div id="ratingList" style="display:none;"></div><div id="profileContent" style="display:none;"></div></div>
+    <div class="footer">
+        <a href="https://t.me/histforyou" target="_blank" class="social-icon">📢</a>
+        <a href="tg://resolve?domain=swayzeee" class="social-icon">👤</a>
+        <a href="https://www.instagram.com/yakimisha_oleg" target="_blank" class="social-icon">📸</a>
+    </div>
 </div>
 <div id="quizScreen" class="screen" style="display:none;">
     <div class="header"><button class="close-btn" onclick="backToMain()">←</button><div id="quizTitle"></div><div style="width:40px"></div></div>
@@ -287,6 +292,7 @@ const subjects = {
     belarus: { name: "🇧🇾 История Беларуси", lessons: belarusLessons }
 };
 
+// 42 исторических факта (30 новых)
 const historyFacts = [
     "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
     "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
@@ -299,7 +305,37 @@ const historyFacts = [
     "📚 Библиотека Ивана Грозного до сих пор не найдена.",
     "🏛️ Древний Рим был основан в 753 году до н.э.",
     "🇧🇾 Первая столица Беларуси — Полоцк",
-    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе"
+    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе",
+    "🏰 Замок в Мире построен в XVI веке",
+    "✝️ Евфросиния Полоцкая стала первой женщиной, причисленной к лику святых на Руси",
+    "📖 Франциск Скорина издал Библию на старобелорусском языке в 1517 году",
+    "⚔️ Грюнвальдская битва произошла в 1410 году",
+    "🏛️ Несвижский замок принадлежал роду Радзивиллов",
+    "🌾 В XVIII веке Беларусь была крупнейшим поставщиком зерна в Европе",
+    "🎭 Первый белорусский профессиональный театр создан в 1917 году",
+    "📜 Конституция Речи Посполитой 1791 года — вторая в мире",
+    "🏫 Виленский университет основан в 1579 году",
+    "✍️ Янка Купала и Якуб Колас — классики белорусской литературы",
+    "🏭 БелАЭС — первая атомная станция в Беларуси, запущена в 2020 году",
+    "🛰️ Беларусь запустила свой первый спутник в 2012 году",
+    "🏅 Белорусские спортсмены выиграли 212 олимпийских медалей",
+    "🎼 Музыкальный фестиваль «Славянский базар» проходит в Витебске с 1992 года",
+    "🍞 Белорусский хлеб занесён в список культурного наследия ЮНЕСКО",
+    "🦬 Беловежская пуща — самый старый заповедник Европы",
+    "📚 В Полоцке находится Софийский собор XI века",
+    "🏛️ Несвижская ратуша — одна из старейших в Европе",
+    "🎨 Марк Шагал родился в Витебске",
+    "🏰 Гродненский замок был резиденцией Стефана Батория",
+    "📜 Лидский замок построен в XIV веке по приказу Гедимина",
+    "🌾 Беларусь называют «лёгкими Европы» из-за лесов",
+    "🏅 Беларусь входит в топ-5 стран по производству льна",
+    "🚂 Первая железная дорога на территории Беларуси открыта в 1862 году",
+    "🏛️ Минск был полностью разрушен в годы ВОВ и восстановлен заново",
+    "📖 В Брестской крепости написан роман «Я родом из детства»",
+    "🎭 Купаловский театр — старейший театр Беларуси",
+    "🏛️ Ратуша в Минске восстановлена в 2004 году",
+    "🦫 Беларусь — лидер в Европе по числу зубров",
+    "🌾 «Дожинки» — традиционный праздник урожая, возрождённый в 1996 году"
 ];
 
 // --- Локальное хранилище прогресса (лучшие баллы по урокам) ---
@@ -418,7 +454,12 @@ async function loadRating() {
         if (!data || data.length === 0) { container.innerHTML = '<div class="stat-card">⭐ Пока никого нет</div>'; return; }
         container.innerHTML = data.map((user, i) => {
             let cleanName = (user.name || "Аноним").replace(/[^\p{L}\p{N}\s]/gu, '').substring(0, 20);
-            return `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${cleanName}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`;
+            let medal = '';
+            if (i === 0) medal = '👑';
+            else if (i === 1) medal = '🥈';
+            else if (i === 2) medal = '🥉';
+            else medal = '📖';
+            return `<div class="rank-item"><div class="rank-avatar">${medal}</div><div style="flex:1"><strong>${cleanName}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`;
         }).join('');
     } catch(e) { document.getElementById('ratingList').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>'; }
 }
