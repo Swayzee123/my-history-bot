@@ -404,10 +404,8 @@ async function initUser() {
 async function saveResult(score, maxScore, lessonId) {
     if (!currentUser || currentUser.id === 123456) return;
     try {
-        // Обновляем локальный прогресс (лучший балл)
         updateLessonProgress(lessonId, score, maxScore);
         const totalBest = getTotalBestScore();
-        // Отправляем общий total_score в Supabase
         await supabaseClient.from('users').update({ total_score: totalBest }).eq('telegram_id', String(currentUser.id));
         currentUser.total_score = totalBest;
     } catch(e) { console.log(e); }
@@ -419,9 +417,11 @@ async function loadRating() {
         const container = document.getElementById('ratingList');
         if (!data || data.length === 0) { container.innerHTML = '<div class="stat-card">⭐ Пока никого нет</div>'; return; }
         container.innerHTML = data.map((user, i) => {
-    let cleanName = (user.name || "Аноним").replace(/[^\p{L}\p{N}\s]/gu, '').substring(0, 20);
-    return `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${cleanName}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`;
-}).join('');
+            let cleanName = (user.name || "Аноним").replace(/[^\p{L}\p{N}\s]/gu, '').substring(0, 20);
+            return `<div class="rank-item"><div class="rank-avatar">${i === 0 ? '🏆' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : '📖'))}</div><div style="flex:1"><strong>${cleanName}</strong></div><div style="font-weight:bold;color:#d48c9c">${user.total_score || 0} баллов</div></div>`;
+        }).join('');
+    } catch(e) { document.getElementById('ratingList').innerHTML = '<div class="stat-card">⭐ Рейтинг временно недоступен</div>'; }
+}
 
 function renderStats() {
     const totalQuestions = getTotalQuestions();
@@ -481,7 +481,6 @@ function switchTab(tab) {
 }
 
 function startQuiz(lesson) {
-    // Клонируем и перемешиваем урок
     const shuffled = prepareShuffledLesson(lesson);
     currentLesson = shuffled;
     currentQuestionIndex = 0;
@@ -512,7 +511,6 @@ function handleAnswer() {
 }
 
 async function finishQuiz() {
-    // Сохраняем результат (только если лучше)
     await saveResult(currentScore, currentLesson.questions.length, currentLesson.id);
     document.getElementById('quizScreen').style.display = 'none'; document.getElementById('resultScreen').style.display = 'block';
     const percent = Math.round((currentScore / currentLesson.questions.length) * 100);
