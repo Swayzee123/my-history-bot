@@ -212,8 +212,20 @@ const SUPABASE_URL = "https://roakqdkabmtsemavyseh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dYmhQWEHHhUhcqLbxr6M_w_rhrk_S7z";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ==================== ВСЕМИРНАЯ ИСТОРИЯ (111 дат) ====================
-const worldLessons = [
+// ==================== ФУНКЦИЯ ПЕРЕМЕШИВАНИЯ ОТВЕТОВ ====================
+function shuffleOptions(question) {
+    const options = [...question.options];
+    const correctAnswer = question.options[question.correct];
+    for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+    }
+    const newCorrectIndex = options.indexOf(correctAnswer);
+    return { ...question, options: options, correct: newCorrectIndex };
+}
+
+// ==================== ВСЕМИРНАЯ ИСТОРИЯ (с исправленными ответами) ====================
+const worldLessonsRaw = [
     {
         id: 1,
         title: "Урок 1. Древность и Античность (30 дат)",
@@ -291,6 +303,7 @@ const worldLessons = [
             { text: "Когда был подписан пакт Молотова-Риббентропа?", options: ["1939 г.", "1938 г.", "1940 г."], correct: 0 },
             { text: "Когда началась Вторая мировая война?", options: ["1939 г.", "1941 г.", "1938 г."], correct: 0 },
             { text: "Когда Германия напала на СССР?", options: ["1941 г.", "1940 г.", "1942 г."], correct: 0 },
+            { text: "Когда проходила Великая Отечественная война?", options: ["1941–1945 гг.", "1941–1944 гг.", "1939–1945 гг."], correct: 0 },
             { text: "Когда состоялась Тегеранская конференция?", options: ["1943 г.", "1942 г.", "1944 г."], correct: 0 },
             { text: "Когда состоялась Ялтинская конференция?", options: ["1945 г.", "1944 г.", "1943 г."], correct: 0 },
             { text: "Когда состоялась Потсдамская конференция?", options: ["1945 г.", "1944 г.", "1943 г."], correct: 0 },
@@ -329,8 +342,8 @@ const worldLessons = [
     }
 ];
 
-// ==================== ИСТОРИЯ БЕЛАРУСИ (103 даты) ====================
-const belarusLessons = [
+// ==================== ИСТОРИЯ БЕЛАРУСИ (с исправленными ответами) ====================
+const belarusLessonsRaw = [
     {
         id: 10,
         title: "Урок 1. Древность и Раннее Средневековье (25 дат)",
@@ -423,7 +436,7 @@ const belarusLessons = [
             { text: "Когда произошли укрупнения БССР?", options: ["1924, 1926 гг.", "1921 г.", "1927 г."], correct: 0 },
             { text: "Когда началась коллективизация в БССР?", options: ["1927 г.", "1924 г.", "1926 г."], correct: 0 },
             { text: "Когда произошел освободительный поход Красной армии в Западную Беларусь?", options: ["1939 г.", "1941 г.", "1944 г."], correct: 0 },
-            { text: "Когда проходила Великая Отечественная война?", options: ["1941–1944 гг.", "1939–1945 гг.", "1941–1945 гг."], correct: 0 },
+            { text: "Когда проходила Великая Отечественная война?", options: ["1941–1945 гг.", "1941–1944 гг.", "1939–1945 гг."], correct: 0 },
             { text: "Когда была проведена операция «Багратион»?", options: ["1944 г.", "1943 г.", "1945 г."], correct: 0 },
             { text: "Когда был утвержден флаг БССР?", options: ["1951 г.", "1945 г.", "1986 г."], correct: 0 },
             { text: "Когда произошла авария на Чернобыльской АЭС?", options: ["1986 г.", "1990 г.", "1991 г."], correct: 0 },
@@ -442,24 +455,63 @@ const belarusLessons = [
     }
 ];
 
+// Применяем перемешивание ответов ко всем вопросам
+const worldLessons = worldLessonsRaw.map(lesson => ({
+    ...lesson,
+    questions: lesson.questions.map(q => shuffleOptions(q))
+}));
+
+const belarusLessons = belarusLessonsRaw.map(lesson => ({
+    ...lesson,
+    questions: lesson.questions.map(q => shuffleOptions(q))
+}));
+
 const subjects = {
     world: { name: "🌍 Всемирная история", lessons: worldLessons },
     belarus: { name: "🇧🇾 История Беларуси", lessons: belarusLessons }
 };
 
-const historyFacts = [
+// Научные факты (расширенные)
+const scienceFacts = [
+    "🔬 Первый искусственный спутник Земли весил всего 83,6 кг.",
+    "🧬 ДНК человека на 99,9% одинакова у всех людей.",
+    "🌍 Земля делает полный оборот вокруг Солнца со скоростью 107 000 км/ч.",
+    "💧 Человек на 60-70% состоит из воды.",
+    "🦕 Динозавры жили на Земле 165 миллионов лет, а люди — всего 2 миллиона.",
+    "⚛️ В одной песчинке больше атомов, чем звёзд во Вселенной.",
+    "🐙 У осьминога три сердца и голубая кровь.",
+    "🌙 Луна отдаляется от Земли на 3,8 см в год.",
+    "🧠 Мозг человека генерирует до 50 000 мыслей в день.",
+    "🐝 Пчелы могут распознавать человеческие лица.",
+    "🌿 Баобаб может жить более 1000 лет.",
+    "🪐 На Венере один день длится дольше, чем год.",
+    "🐧 Императорские пингвины могут задерживать дыхание на 20 минут.",
+    "🌊 Самая глубокая точка океана — Марианская впадина (11 км).",
+    "🦒 Шея жирафа состоит из 7 позвонков, как и у человека.",
+    "❄️ Айсберги могут быть старше 30 000 лет.",
+    "🦷 Отпечаток языка у каждого человека уникален.",
+    "🌋 Йеллоустонский супервулкан извергается раз в 600 000 лет.",
+    "🐚 Улитки могут спать до 3 лет.",
+    "🔭 Телескоп Хаббл сделал более 1,5 млн наблюдений.",
     "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
-    "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
+    "📜 Самая древняя книга — «Алмазная сутра», 868 год.",
     "🌍 Первое кругосветное путешествие совершил Магеллан в 1519 году.",
     "⚔️ Куликовская битва произошла в 1380 году.",
     "📖 Первая печатная книга на Руси — «Апостол», 1564 год.",
-    "🏰 Полоцк впервые упоминается в 862 году в летописях.",
+    "🏰 Полоцк впервые упоминается в 862 году.",
     "🎨 Леонардо да Винчи написал «Мону Лизу» в 1503 году.",
     "🚀 Первый полёт человека в космос — 12 апреля 1961 года.",
     "📚 Библиотека Ивана Грозного до сих пор не найдена.",
     "🏛️ Древний Рим был основан в 753 году до н.э.",
-    "🇧🇾 Первая столица Беларуси — Полоцк",
-    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе"
+    "🇧🇾 Первая столица Беларуси — Полоцк.",
+    "📜 Статут ВКЛ 1588 года действовал дольше всех в Европе.",
+    "✝️ Евфросиния Полоцкая стала первой женщиной, причисленной к лику святых на Руси.",
+    "🏰 Несвижский замок — одна из главных достопримечательностей Беларуси.",
+    "🛰️ Первый спутник запущен в 1957 году.",
+    "🧪 Пенициллин открыт Александром Флемингом в 1928 году.",
+    "💡 Томас Эдисон изобрёл лампу накаливания в 1879 году.",
+    "📞 Александр Белл запатентовал телефон в 1876 году.",
+    "✈️ Братья Райт совершили первый полёт в 1903 году."
 ];
 
 let currentLesson = null, currentQuestionIndex = 0, currentScore = 0, selectedOption = null, answered = false, currentUser = null, currentTab = "subjects";
@@ -537,11 +589,11 @@ function renderMain() {
 
 function renderProfile() {
     const user = tg?.initDataUnsafe?.user;
-    const randomFact = historyFacts[Math.floor(Math.random() * historyFacts.length)];
+    const randomFact = scienceFacts[Math.floor(Math.random() * scienceFacts.length)];
     const avatarHtml = user?.photo_url ? `<img src="${user.photo_url}" style="width:80px;height:80px;border-radius:80px;margin:0 auto 16px;display:block;object-fit:cover;">` : `<div style="width:80px;height:80px;border-radius:80px;background:linear-gradient(135deg,#d48c9c,#e89f7e);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📖</div>`;
     document.getElementById('profileContent').innerHTML = `
         <div class="stat-card">${avatarHtml}<div style="font-size:24px;font-weight:bold;">${user?.first_name || "Гость"}</div><div style="color:#b86f8c;">🏆 ${currentUser?.total_score || 0} баллов</div></div>
-        <div class="stat-card"><div style="font-size:18px;margin-bottom:12px;">📖 Исторический факт дня</div><div style="font-size:14px;">${randomFact}</div></div>
+        <div class="stat-card"><div style="font-size:18px;margin-bottom:12px;">🔬 Научный факт дня</div><div style="font-size:14px;">${randomFact}</div></div>
     `;
 }
 
