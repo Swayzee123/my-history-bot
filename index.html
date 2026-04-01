@@ -293,7 +293,6 @@ function renderQuestion() {
     btn.innerText = "Ответить";
     
     if (q.type === "input") {
-        // Поле для ввода
         const inputDiv = document.createElement('input');
         inputDiv.type = 'text';
         inputDiv.placeholder = 'Введите ответ...';
@@ -308,7 +307,6 @@ function renderQuestion() {
         box.appendChild(inputDiv);
         inputDiv.focus();
     } else {
-        // Варианты ответов
         q.options.forEach((opt, i) => {
             const div = document.createElement('div');
             div.className = 'option';
@@ -341,14 +339,12 @@ function handleAnswer() {
         
         answered = true;
         
-        // Показываем правильный ответ
         const box = document.getElementById('optionsBox');
         if (q.type === "input") {
-            // Для ручного ввода — показываем правильный ответ
-            const correctAnswers = q.answer.join(", ");
+            const correctAnswer = q.answer[0];
             const feedback = document.createElement('div');
             feedback.className = isCorrect ? 'option correct' : 'option wrong';
-            feedback.innerHTML = isCorrect ? `✅ Правильно!` : `❌ Неправильно. Правильный ответ: ${correctAnswers}`;
+            feedback.innerHTML = isCorrect ? `✅ Правильно!` : `❌ Неправильно. Правильный ответ: ${correctAnswer}`;
             box.innerHTML = '';
             box.appendChild(feedback);
         } else {
