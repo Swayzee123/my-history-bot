@@ -64,33 +64,23 @@ let historyFacts = [];
 
 async function loadData() {
     try {
-        const [worldRes, belarusRes, additionalRes] = await Promise.all([
+        const [worldRes, belarusRes, additionalRes, factsRes] = await Promise.all([
             fetch('https://swayzee123.github.io/my-history-bot/worldLessons.json'),
             fetch('https://swayzee123.github.io/my-history-bot/belarusLessons.json'),
-            fetch('https://swayzee123.github.io/my-history-bot/additionalLessons.json')
+            fetch('https://swayzee123.github.io/my-history-bot/additionalLessons.json'),
+            fetch('https://swayzee123.github.io/my-history-bot/facts.json')
         ]);
         const worldLessons = await worldRes.json();
         const belarusLessons = await belarusRes.json();
         const additional = await additionalRes.json();
+        const facts = await factsRes.json();
         
         subjects[0].lessons = worldLessons;
         subjects[1].lessons = additional.personalities;
         subjects[2].lessons = belarusLessons;
         subjects[3].lessons = additional.terms;
         
-        // Факты пока оставим из старого файла (можно добавить позже)
-        historyFacts = [
-            "🏛️ Первая библиотека появилась в Древней Греции в III веке до н.э.",
-            "📜 Самая древняя из сохранившихся книг — «Алмазная сутра», 868 год.",
-            "🌍 Первое кругосветное путешествие совершил Магеллан в 1519 году.",
-            "⚔️ Куликовская битва произошла в 1380 году.",
-            "📖 Первая печатная книга на Руси — «Апостол», 1564 год.",
-            "🏰 Полоцк впервые упоминается в 862 году в летописях.",
-            "🎨 Леонардо да Винчи написал «Мону Лизу» в 1503 году.",
-            "🚀 Первый полёт человека в космос — 12 апреля 1961 года.",
-            "📚 Библиотека Ивана Грозного до сих пор не найдена.",
-            "🏛️ Древний Рим был основан в 753 году до н.э."
-        ];
+        historyFacts = facts;
     } catch(e) {
         console.error("Ошибка загрузки данных:", e);
         subjects = subjects.map(s => ({ ...s, lessons: [] }));
